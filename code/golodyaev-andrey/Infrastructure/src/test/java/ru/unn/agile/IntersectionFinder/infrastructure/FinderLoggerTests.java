@@ -9,12 +9,12 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class FinderLoggerTests {
-    private static final String LOGFILENAME = "./FinderLoggerTests.log";
+    private static final String LOG_FILE_NAME = "./FinderLoggerTests.log";
     private FinderLogger logger;
 
     @Before
     public void setUp() {
-        logger = new FinderLogger(LOGFILENAME);
+        logger = new FinderLogger(LOG_FILE_NAME);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class FinderLoggerTests {
 
     @Test
     public void canCreateLogFileOnDisk() {
-        assertTrue(new File(LOGFILENAME).isFile());
+        assertTrue(new File(LOG_FILE_NAME).isFile());
     }
 
     @Test
@@ -49,6 +49,6 @@ public class FinderLoggerTests {
         int index1, index2;
         index1 = messages.get(0).indexOf(message1);
         index2 = messages.get(1).indexOf(message2);
-        assertTrue(index1 > 0 && index2 > 0);
+        assertTrue(index1 >= 0 && index2 >= 0);
     }
 }

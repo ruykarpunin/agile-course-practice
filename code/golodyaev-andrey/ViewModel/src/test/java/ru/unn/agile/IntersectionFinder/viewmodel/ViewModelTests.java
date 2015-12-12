@@ -207,7 +207,7 @@ public class ViewModelTests {
         index1 = message.indexOf(ViewModel.FocusedField.POINT_LINE.toString());
         index2 = message.indexOf(viewModel.getPointLine());
 
-        assertTrue(index1 > 0 && index2 > 0);
+        assertTrue(index1 >= 0 && index2 >= 0);
     }
 
     @Test
@@ -220,7 +220,7 @@ public class ViewModelTests {
         index1 = message.indexOf(ViewModel.FocusedField.VECTOR_LINE.toString());
         index2 = message.indexOf(viewModel.getVectorLine());
 
-        assertTrue(index1 > 0 && index2 > 0);
+        assertTrue(index1 >= 0 && index2 >= 0);
     }
 
     @Test
@@ -233,7 +233,7 @@ public class ViewModelTests {
         index1 = message.indexOf(ViewModel.FocusedField.POINT_PLANE.toString());
         index2 = message.indexOf(viewModel.getPointPlane());
 
-        assertTrue(index1 > 0 && index2 > 0);
+        assertTrue(index1 >= 0 && index2 >= 0);
     }
 
     @Test
@@ -246,7 +246,7 @@ public class ViewModelTests {
         index1 = message.indexOf(ViewModel.FocusedField.NORMAL_PLANE.toString());
         index2 = message.indexOf(viewModel.getNormalPlane());
 
-        assertTrue(index1 > 0 && index2 > 0);
+        assertTrue(index1 >= 0 && index2 >= 0);
     }
 
     @Test
