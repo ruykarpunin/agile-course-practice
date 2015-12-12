@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ViewModelTests {
@@ -11,7 +13,8 @@ public class ViewModelTests {
 
     @Before
     public void setUp() {
-        viewModel = new ViewModel();
+        FakeFinderLogger fakeLogger = new FakeFinderLogger();
+        viewModel = new ViewModel(fakeLogger);
     }
 
     @After
@@ -168,6 +171,120 @@ public class ViewModelTests {
         assertEquals("", viewModel.getResult());
     }
 
+    @Test
+    public void canCreateViewModelWithLogger() {
+        assertNotNull(viewModel);
+    }
+
+    @Test(expected = Exception.class)
+    public void canConstructorThrowExceptionWithNullLoggerParameter() {
+        viewModel = new ViewModel(null);
+    }
+
+    @Test
+    public void isDefaultLogEmpty() {
+        List<String> log = viewModel.getLog();
+
+        assertEquals(0, log.size());
+    }
+
+    @Test
+    public void isLogNotEmptyWhenPressedButton() {
+        fillCorrectInputFields();
+        viewModel.findIntersection();
+        List<String> log = viewModel.getLog();
+
+        assertNotEquals(0, log.size());
+    }
+
+    @Test
+    public void isLogCorrectWhenFillPointLineField() {
+        viewModel.setPointLine("1; 2; 3");
+        viewModel.lostFocus();
+        String message = viewModel.getLog().get(0);
+
+        int index1, index2;
+        index1 = message.indexOf(ViewModel.FocusedField.POINT_LINE.toString());
+        index2 = message.indexOf(viewModel.getPointLine());
+
+        assertTrue(index1 > 0 && index2 > 0);
+    }
+
+    @Test
+    public void isLogCorrectWhenFillVectorLineField() {
+        viewModel.setVectorLine("1; 2; 3");
+        viewModel.lostFocus();
+        String message = viewModel.getLog().get(0);
+
+        int index1, index2;
+        index1 = message.indexOf(ViewModel.FocusedField.VECTOR_LINE.toString());
+        index2 = message.indexOf(viewModel.getVectorLine());
+
+        assertTrue(index1 > 0 && index2 > 0);
+    }
+
+    @Test
+    public void isLogCorrectWhenFillPointPlaneField() {
+        viewModel.setPointPlane("1; 2; 3");
+        viewModel.lostFocus();
+        String message = viewModel.getLog().get(0);
+
+        int index1, index2;
+        index1 = message.indexOf(ViewModel.FocusedField.POINT_PLANE.toString());
+        index2 = message.indexOf(viewModel.getPointPlane());
+
+        assertTrue(index1 > 0 && index2 > 0);
+    }
+
+    @Test
+    public void isLogCorrectWhenFillNormalPlaneField() {
+        viewModel.setNormalPlane("1; 2; 3");
+        viewModel.lostFocus();
+        String message = viewModel.getLog().get(0);
+
+        int index1, index2;
+        index1 = message.indexOf(ViewModel.FocusedField.NORMAL_PLANE.toString());
+        index2 = message.indexOf(viewModel.getNormalPlane());
+
+        assertTrue(index1 > 0 && index2 > 0);
+    }
+
+    @Test
+    public void canLogSeveralEvents() {
+        viewModel.setNormalPlane("1; 2; 3");
+        viewModel.lostFocus();
+        fillCorrectInputFields();
+        viewModel.findIntersection();
+        List<String> log = viewModel.getLog();
+
+        assertEquals(2, log.size());
+    }
+
+    @Test
+    public void isOperationNotLoggedWhenFocusDidntLost() {
+        viewModel.setPointLine("1; 2; 3");
+        viewModel.setVectorLine("1; 2; 3");
+        viewModel.setPointPlane("1; 2; 3");
+        viewModel.setNormalPlane("1; 2; 3");
+        List<String> log = viewModel.getLog();
+
+        assertEquals(0, log.size());
+    }
+
+    @Test
+    public void isOperationNotLoggedWhenInputSameData() {
+        viewModel.setPointLine("1; 2; 3");
+        viewModel.lostFocus();
+        viewModel.setPointLine("1; 2; 3");
+        viewModel.lostFocus();
+        List<String> log = viewModel.getLog();
+
+        assertEquals(1, log.size());
+    }
+
+    public void setViewModel(final ViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
     private void fillEmptyInputFields() {
         viewModel.setPointLine("");
         viewModel.setVectorLine("");

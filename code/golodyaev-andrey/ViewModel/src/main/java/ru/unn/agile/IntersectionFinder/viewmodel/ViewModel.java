@@ -2,6 +2,8 @@ package ru.unn.agile.IntersectionFinder.viewmodel;
 
 import ru.unn.agile.IntersectionFinder.model.*;
 
+import java.util.List;
+
 public class ViewModel {
     private String pointLineText;
     private String vectorLineText;
@@ -10,8 +12,17 @@ public class ViewModel {
     private String result;
     private String error;
     private boolean isFinderButtonEnabled;
+    private IFinderLogger logger;
+    private FocusedField focusedField;
+    private boolean isCurrentFieldChanged;
 
-    public ViewModel() {
+    public ViewModel(final IFinderLogger logger) {
+        if (logger == null) {
+            throw new IllegalArgumentException("Logger is null!");
+        }
+
+        isCurrentFieldChanged = false;
+        this.logger = logger;
         pointLineText = "";
         vectorLineText = "";
         pointPlaneText = "";
@@ -68,6 +79,7 @@ public class ViewModel {
     }
 
     public void findIntersection() {
+        logger.log(findIntersectionMessage());
         Vector3D pointLine = new Vector3D(pointLineText);
         Vector3D vectorLine = new Vector3D(vectorLineText);
         Vector3D pointPlane = new Vector3D(pointPlaneText);
@@ -95,6 +107,20 @@ public class ViewModel {
         }
     }
 
+    private String findIntersectionMessage() {
+        String message = "Pressed FindIntersection button. Arguments: "
+                + "pointLine(" + pointLineText
+                + "); vectorLine(" + vectorLineText
+                + "); pointPlane(" + pointPlaneText
+                + "); normalPlane(" + normalPlaneText
+                + ")";
+        return message;
+    }
+
+    public List<String> getLog() {
+        return logger.getLog();
+    }
+
     public String getError() {
         return error;
     }
@@ -112,6 +138,8 @@ public class ViewModel {
             return;
         }
 
+        isCurrentFieldChanged = true;
+        focusedField = FocusedField.POINT_LINE;
         this.pointLineText = pointLineText;
     }
 
@@ -124,6 +152,8 @@ public class ViewModel {
             return;
         }
 
+        isCurrentFieldChanged = true;
+        focusedField = FocusedField.VECTOR_LINE;
         this.vectorLineText = vectorLineText;
     }
 
@@ -136,6 +166,8 @@ public class ViewModel {
             return;
         }
 
+        isCurrentFieldChanged = true;
+        focusedField = FocusedField.POINT_PLANE;
         this.pointPlaneText = pointPlaneText;
     }
 
@@ -148,7 +180,35 @@ public class ViewModel {
             return;
         }
 
+        isCurrentFieldChanged = true;
+        focusedField = FocusedField.NORMAL_PLANE;
         this.normalPlaneText = normalPlane;
+    }
+
+    public void lostFocus() {
+        if (!isCurrentFieldChanged) {
+            return;
+        }
+        String message = "Updated field " + focusedField.toString() + " with value (";
+        switch (focusedField) {
+            case POINT_LINE:
+                message += pointLineText;
+                break;
+            case VECTOR_LINE:
+                message += vectorLineText;
+                break;
+            case POINT_PLANE:
+                message += pointPlaneText;
+                break;
+            case NORMAL_PLANE:
+                message += normalPlaneText;
+                break;
+            default:
+                break;
+        }
+        message += ")";
+        isCurrentFieldChanged = false;
+        logger.log(message);
     }
 
     enum ErrorStatus {
@@ -169,4 +229,22 @@ public class ViewModel {
             return name;
         }
     }
+
+    enum FocusedField {
+        POINT_LINE("pointLine"),
+        VECTOR_LINE("vectorLine"),
+        POINT_PLANE("pointPlane"),
+        NORMAL_PLANE("normalPlane");
+
+        private final String name;
+
+        private FocusedField(final String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    };
 }
