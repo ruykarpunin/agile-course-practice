@@ -105,6 +105,7 @@ public class ViewModel {
             default:
                 break;
         }
+        logger.log(resultMessage(type) + result);
     }
 
     private String findIntersectionMessage() {
@@ -114,6 +115,24 @@ public class ViewModel {
                 + "); pointPlane(" + pointPlaneText
                 + "); normalPlane(" + normalPlaneText
                 + ")";
+        return message;
+    }
+
+    private String resultMessage(IntersectionFinder.TypeOfIntersection type) {
+        String message = "Result: ";
+        switch (type) {
+            case NoIntersection:
+                message = "No Intersection!";
+                break;
+            case LineOnThePlane:
+                message = "Plane Contains Line!";
+                break;
+            case OneIntersection:
+                message = "One Intersection! Point = ";
+                break;
+            default:
+                break;
+        }
         return message;
     }
 

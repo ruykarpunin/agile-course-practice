@@ -257,7 +257,7 @@ public class ViewModelTests {
         viewModel.findIntersection();
         List<String> log = viewModel.getLog();
 
-        assertEquals(2, log.size());
+        assertEquals(3, log.size());
     }
 
     @Test
@@ -280,6 +280,36 @@ public class ViewModelTests {
         List<String> log = viewModel.getLog();
 
         assertEquals(1, log.size());
+    }
+
+    @Test
+    public void canLogNoIntersectionResult() {
+        fillInputFieldsNoIntersection();
+
+        viewModel.findIntersection();
+        String message = viewModel.getLog().get(1);
+
+        assertTrue(message.indexOf("No Intersection!") >= 0);
+    }
+
+    @Test
+    public void canLogOneIntersectionResult() {
+        fillCorrectInputFields();
+
+        viewModel.findIntersection();
+        String message = viewModel.getLog().get(1);
+
+        assertTrue(message.indexOf("One Intersection!") >= 0);
+    }
+
+    @Test
+    public void canLogLineOnThePlaneResult() {
+        fillInputFieldsLineOnThePlane();
+
+        viewModel.findIntersection();
+        String message = viewModel.getLog().get(1);
+
+        assertTrue(message.indexOf("Plane Contains Line!") >= 0);
     }
 
     public void setViewModel(final ViewModel viewModel) {
