@@ -10,7 +10,7 @@ public class ViewModel {
     private String pointPlaneText;
     private String normalPlaneText;
     private String result;
-    private String error;
+    private String status;
     private boolean isFinderButtonEnabled;
     private IFinderLogger logger;
     private FocusedField focusedField;
@@ -28,7 +28,7 @@ public class ViewModel {
         pointPlaneText = "";
         normalPlaneText = "";
         result = "";
-        error = ErrorStatus.EMPTY_FIELDS.toString();
+        status = Status.EMPTY_FIELDS.toString();
         isFinderButtonEnabled = false;
     }
 
@@ -65,16 +65,16 @@ public class ViewModel {
     public boolean parseInput() {
         if (isInputContainsIllegalData()) {
             isFinderButtonEnabled = false;
-            error = ErrorStatus.INCORRECT_DATA.toString();
+            status = Status.INCORRECT_DATA.toString();
             return false;
         }
         if (isInputEmpty()) {
             isFinderButtonEnabled = false;
-            error = ErrorStatus.EMPTY_FIELDS.toString();
+            status = Status.EMPTY_FIELDS.toString();
             return false;
         }
         isFinderButtonEnabled = true;
-        error = ErrorStatus.NO_ERROR.toString();
+        status = Status.NO_ERROR.toString();
         return true;
     }
 
@@ -89,23 +89,25 @@ public class ViewModel {
         IntersectionFinder intersectionFinder = new IntersectionFinder(line, plane);
 
         IntersectionFinder.TypeOfIntersection type = intersectionFinder.getTypeOfIntersection();
+        Status currentStatus = Status.NO_ERROR;
         switch (type) {
             case NoIntersection:
-                error = ErrorStatus.NO_INTERSECTION.toString();
+                currentStatus = Status.NO_INTERSECTION;
                 result = "";
                 break;
             case LineOnThePlane:
-                error = ErrorStatus.PLANE_CONTAINS_LINE.toString();
+                currentStatus = Status.PLANE_CONTAINS_LINE;
                 result = "";
                 break;
             case OneIntersection:
-                error = ErrorStatus.NO_ERROR.toString();
+                currentStatus = Status.ONE_INTERSECTION;
                 result = intersectionFinder.getIntersectionPoint().toString();
                 break;
             default:
                 break;
         }
-        logger.log(resultMessage(type) + result);
+        status = currentStatus.toString();
+        logger.log(resultMessage(currentStatus) + result);
     }
 
     private String findIntersectionMessage() {
@@ -118,20 +120,10 @@ public class ViewModel {
         return message;
     }
 
-    private String resultMessage(final IntersectionFinder.TypeOfIntersection type) {
-        String message = "Result: ";
-        switch (type) {
-            case NoIntersection:
-                message = "No Intersection!";
-                break;
-            case LineOnThePlane:
-                message = "Plane Contains Line!";
-                break;
-            case OneIntersection:
-                message = "One Intersection! Point = ";
-                break;
-            default:
-                break;
+    private String resultMessage(final Status status) {
+        String message = "Result: " + status.toString();
+        if (status == Status.ONE_INTERSECTION) {
+            message += " Point = ";
         }
         return message;
     }
@@ -140,8 +132,8 @@ public class ViewModel {
         return logger.getLog();
     }
 
-    public String getError() {
-        return error;
+    public String getStatus() {
+        return status;
     }
 
     public String getResult() {
@@ -230,8 +222,9 @@ public class ViewModel {
         logger.log(message);
     }
 
-    enum ErrorStatus {
+    enum Status {
         NO_ERROR(""),
+        ONE_INTERSECTION("One Intersection!"),
         NO_INTERSECTION("No Intersection!"),
         PLANE_CONTAINS_LINE("Plane contains line!"),
         EMPTY_FIELDS("Empty fields! Format a;b;c"),
@@ -239,7 +232,7 @@ public class ViewModel {
 
         private final String name;
 
-        private ErrorStatus(final String name) {
+        private Status(final String name) {
             this.name = name;
         }
 

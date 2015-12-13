@@ -48,8 +48,8 @@ public class ViewModelTests {
     }
 
     @Test
-    public void canSetDefaultError() {
-        assertEquals(ViewModel.ErrorStatus.EMPTY_FIELDS.toString(), viewModel.getError());
+    public void canSetDefaultStatus() {
+        assertEquals(ViewModel.Status.EMPTY_FIELDS.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class ViewModelTests {
 
         viewModel.parseInput();
 
-        assertEquals("", viewModel.getError());
+        assertEquals("", viewModel.getStatus());
     }
 
     @Test
@@ -76,12 +76,12 @@ public class ViewModelTests {
     }
 
     @Test
-    public void checkErrorTextWhenFieldsAreEmpty() {
+    public void checkStatusTextWhenFieldsAreEmpty() {
         fillEmptyInputFields();
 
         viewModel.parseInput();
 
-        assertEquals(ViewModel.ErrorStatus.EMPTY_FIELDS.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.EMPTY_FIELDS.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -94,13 +94,13 @@ public class ViewModelTests {
     }
 
     @Test
-    public void checkErrorTextWhenFieldsContainIncorrectData() {
+    public void checkStatusTextWhenFieldsContainIncorrectData() {
         fillCorrectInputFields();
         viewModel.setPointPlane("1; 2; a");
 
         viewModel.parseInput();
 
-        assertEquals(ViewModel.ErrorStatus.INCORRECT_DATA.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.INCORRECT_DATA.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -114,30 +114,30 @@ public class ViewModelTests {
     }
 
     @Test
-    public void checkErrorTextWhenOneIntersection() {
+    public void checkStatusTextWhenOneIntersection() {
         fillCorrectInputFields();
 
         viewModel.findIntersection();
 
-        assertEquals(ViewModel.ErrorStatus.NO_ERROR.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.ONE_INTERSECTION.toString(), viewModel.getStatus());
     }
 
     @Test
-    public void checkErrorTextWhenNoIntersection() {
+    public void checkStatusTextWhenNoIntersection() {
         fillInputFieldsNoIntersection();
 
         viewModel.findIntersection();
 
-        assertEquals(ViewModel.ErrorStatus.NO_INTERSECTION.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.NO_INTERSECTION.toString(), viewModel.getStatus());
     }
 
     @Test
-    public void checkErrorTextWhenPlaneContainsLine() {
+    public void checkStatusTextWhenPlaneContainsLine() {
         fillInputFieldsLineOnThePlane();
 
         viewModel.findIntersection();
 
-        assertEquals(ViewModel.ErrorStatus.PLANE_CONTAINS_LINE.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.PLANE_CONTAINS_LINE.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -289,7 +289,7 @@ public class ViewModelTests {
         viewModel.findIntersection();
         String message = viewModel.getLog().get(1);
 
-        assertTrue(message.indexOf("No Intersection!") >= 0);
+        assertTrue(message.indexOf(ViewModel.Status.NO_INTERSECTION.toString()) >= 0);
     }
 
     @Test
@@ -299,7 +299,7 @@ public class ViewModelTests {
         viewModel.findIntersection();
         String message = viewModel.getLog().get(1);
 
-        assertTrue(message.indexOf("One Intersection!") >= 0);
+        assertTrue(message.indexOf(ViewModel.Status.ONE_INTERSECTION.toString()) >= 0);
     }
 
     @Test
@@ -309,7 +309,7 @@ public class ViewModelTests {
         viewModel.findIntersection();
         String message = viewModel.getLog().get(1);
 
-        assertTrue(message.indexOf("Plane Contains Line!") >= 0);
+        assertTrue(message.indexOf(ViewModel.Status.PLANE_CONTAINS_LINE.toString()) >= 0);
     }
 
     public void setViewModel(final ViewModel viewModel) {

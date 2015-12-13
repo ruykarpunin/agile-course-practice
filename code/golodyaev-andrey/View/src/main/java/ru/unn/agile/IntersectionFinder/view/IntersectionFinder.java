@@ -16,7 +16,7 @@ public final class IntersectionFinder {
     private JTextField normalPlane;
     private JTextField result;
     private JButton findIntersectionButton;
-    private JLabel errorLabel;
+    private JLabel statusLabel;
     private JList<String> logList;
 
     private IntersectionFinder(final ViewModel viewModel) {
@@ -75,7 +75,7 @@ public final class IntersectionFinder {
     private void backBind() {
         findIntersectionButton.setEnabled(viewModel.isFinderButtonEnabled());
         result.setText(viewModel.getResult());
-        errorLabel.setText(viewModel.getError());
+        statusLabel.setText(viewModel.getStatus());
 
         List<String> log = viewModel.getLog();
         String[] strings = log.toArray(new String[log.size()]);
