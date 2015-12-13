@@ -118,7 +118,7 @@ public class ViewModel {
         return message;
     }
 
-    private String resultMessage(IntersectionFinder.TypeOfIntersection type) {
+    private String resultMessage(final IntersectionFinder.TypeOfIntersection type) {
         String message = "Result: ";
         switch (type) {
             case NoIntersection:
