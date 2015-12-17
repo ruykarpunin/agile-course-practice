@@ -12,11 +12,11 @@ public class ViewModel {
     private String result;
     private String status;
     private boolean isFinderButtonEnabled;
-    private IFinderLogger logger;
+    private ILogger logger;
     private FocusedField focusedField;
     private boolean isCurrentFieldChanged;
 
-    public ViewModel(final IFinderLogger logger) {
+    public ViewModel(final ILogger logger) {
         if (logger == null) {
             throw new IllegalArgumentException("Logger is null!");
         }

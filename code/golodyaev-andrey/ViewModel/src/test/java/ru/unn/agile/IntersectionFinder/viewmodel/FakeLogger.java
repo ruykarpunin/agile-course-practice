@@ -3,7 +3,7 @@ package ru.unn.agile.IntersectionFinder.viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FakeFinderLogger implements IFinderLogger {
+public class FakeLogger implements ILogger {
     private ArrayList<String> log = new ArrayList<String>();
 
     @Override

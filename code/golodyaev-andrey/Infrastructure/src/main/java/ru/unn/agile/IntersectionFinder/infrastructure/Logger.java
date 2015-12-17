@@ -1,6 +1,6 @@
 package ru.unn.agile.IntersectionFinder.infrastructure;
 
-import ru.unn.agile.IntersectionFinder.viewmodel.IFinderLogger;
+import ru.unn.agile.IntersectionFinder.viewmodel.ILogger;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,20 +12,20 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class FinderLogger implements IFinderLogger {
+public class Logger implements ILogger {
     private static final String DATE_FORMAT = "dd.MM.yy HH:mm:ss";
     private final BufferedWriter writer;
     private final String logFileName;
 
-    public FinderLogger(final String logFileName) {
+    public Logger(final String logFileName) {
         this.logFileName = logFileName;
-        BufferedWriter tempWriter = null;
+        BufferedWriter writer = null;
         try {
-            tempWriter = new BufferedWriter(new FileWriter(logFileName));
+            writer = new BufferedWriter(new FileWriter(logFileName));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        writer = tempWriter;
+        this.writer = writer;
     }
 
     private static String getTime() {

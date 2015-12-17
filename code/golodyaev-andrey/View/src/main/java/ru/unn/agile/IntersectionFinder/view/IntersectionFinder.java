@@ -1,7 +1,7 @@
 package ru.unn.agile.IntersectionFinder.view;
 
 import ru.unn.agile.IntersectionFinder.viewmodel.ViewModel;
-import ru.unn.agile.IntersectionFinder.infrastructure.FinderLogger;
+import ru.unn.agile.IntersectionFinder.infrastructure.Logger;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -58,7 +58,7 @@ public final class IntersectionFinder {
 
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Intersection Finder");
-        FinderLogger logger = new FinderLogger("./IntersectionFinder.log");
+        Logger logger = new Logger("./IntersectionFinder.log");
         frame.setContentPane(new IntersectionFinder(new ViewModel(logger)).mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 
 public class ViewModelTests {
@@ -13,7 +14,7 @@ public class ViewModelTests {
 
     @Before
     public void setUp() {
-        FakeFinderLogger fakeLogger = new FakeFinderLogger();
+        FakeLogger fakeLogger = new FakeLogger();
         viewModel = new ViewModel(fakeLogger);
     }
 
@@ -203,11 +204,12 @@ public class ViewModelTests {
         viewModel.lostFocus();
         String message = viewModel.getLog().get(0);
 
-        int index1, index2;
-        index1 = message.indexOf(ViewModel.FocusedField.POINT_LINE.toString());
-        index2 = message.indexOf(viewModel.getPointLine());
+        String focusedField = ViewModel.FocusedField.POINT_LINE.toString();
+        String fieldText = viewModel.getPointLine();
 
-        assertTrue(index1 >= 0 && index2 >= 0);
+        String log = viewModel.getLog().get(0);
+        assertThat(log, containsString(focusedField));
+        assertThat(log, containsString(fieldText));
     }
 
     @Test
@@ -216,11 +218,12 @@ public class ViewModelTests {
         viewModel.lostFocus();
         String message = viewModel.getLog().get(0);
 
-        int index1, index2;
-        index1 = message.indexOf(ViewModel.FocusedField.VECTOR_LINE.toString());
-        index2 = message.indexOf(viewModel.getVectorLine());
+        String focusedField = ViewModel.FocusedField.VECTOR_LINE.toString();
+        String fieldText = viewModel.getVectorLine();
 
-        assertTrue(index1 >= 0 && index2 >= 0);
+        String log = viewModel.getLog().get(0);
+        assertThat(log, containsString(focusedField));
+        assertThat(log, containsString(fieldText));
     }
 
     @Test
@@ -229,11 +232,12 @@ public class ViewModelTests {
         viewModel.lostFocus();
         String message = viewModel.getLog().get(0);
 
-        int index1, index2;
-        index1 = message.indexOf(ViewModel.FocusedField.POINT_PLANE.toString());
-        index2 = message.indexOf(viewModel.getPointPlane());
+        String focusedField = ViewModel.FocusedField.POINT_PLANE.toString();
+        String fieldText = viewModel.getPointPlane();
 
-        assertTrue(index1 >= 0 && index2 >= 0);
+        String log = viewModel.getLog().get(0);
+        assertThat(log, containsString(focusedField));
+        assertThat(log, containsString(fieldText));
     }
 
     @Test
@@ -242,11 +246,12 @@ public class ViewModelTests {
         viewModel.lostFocus();
         String message = viewModel.getLog().get(0);
 
-        int index1, index2;
-        index1 = message.indexOf(ViewModel.FocusedField.NORMAL_PLANE.toString());
-        index2 = message.indexOf(viewModel.getNormalPlane());
+        String focusedField = ViewModel.FocusedField.NORMAL_PLANE.toString();
+        String fieldText = viewModel.getNormalPlane();
 
-        assertTrue(index1 >= 0 && index2 >= 0);
+        String log = viewModel.getLog().get(0);
+        assertThat(log, containsString(focusedField));
+        assertThat(log, containsString(fieldText));
     }
 
     @Test
@@ -289,7 +294,7 @@ public class ViewModelTests {
         viewModel.findIntersection();
         String message = viewModel.getLog().get(1);
 
-        assertTrue(message.indexOf(ViewModel.Status.NO_INTERSECTION.toString()) >= 0);
+        assertThat(message, containsString(ViewModel.Status.NO_INTERSECTION.toString()));
     }
 
     @Test
@@ -299,7 +304,7 @@ public class ViewModelTests {
         viewModel.findIntersection();
         String message = viewModel.getLog().get(1);
 
-        assertTrue(message.indexOf(ViewModel.Status.ONE_INTERSECTION.toString()) >= 0);
+        assertThat(message, containsString(ViewModel.Status.ONE_INTERSECTION.toString()));
     }
 
     @Test
@@ -309,7 +314,7 @@ public class ViewModelTests {
         viewModel.findIntersection();
         String message = viewModel.getLog().get(1);
 
-        assertTrue(message.indexOf(ViewModel.Status.PLANE_CONTAINS_LINE.toString()) >= 0);
+        assertThat(message, containsString(ViewModel.Status.PLANE_CONTAINS_LINE.toString()));
     }
 
     public void setViewModel(final ViewModel viewModel) {

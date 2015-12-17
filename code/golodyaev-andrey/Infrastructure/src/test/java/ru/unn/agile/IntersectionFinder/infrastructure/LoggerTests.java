@@ -6,15 +6,16 @@ import org.junit.Test;
 import java.io.File;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 
-public class FinderLoggerTests {
-    private static final String LOG_FILE_NAME = "./FinderLoggerTests.log";
-    private FinderLogger logger;
+public class LoggerTests {
+    private static final String LOG_FILE_NAME = "./LoggerTests.log";
+    private Logger logger;
 
     @Before
     public void setUp() {
-        logger = new FinderLogger(LOG_FILE_NAME);
+        logger = new Logger(LOG_FILE_NAME);
     }
 
     @Test
@@ -34,7 +35,7 @@ public class FinderLoggerTests {
         logger.log(testMessage);
 
         String message = logger.getLog().get(0);
-        assertTrue(message.indexOf(testMessage) > 0);
+        assertThat(message, containsString(testMessage));
     }
 
     @Test
@@ -46,9 +47,7 @@ public class FinderLoggerTests {
         logger.log(message2);
 
         List<String> messages = logger.getLog();
-        int index1, index2;
-        index1 = messages.get(0).indexOf(message1);
-        index2 = messages.get(1).indexOf(message2);
-        assertTrue(index1 >= 0 && index2 >= 0);
+        assertThat(messages.get(0), containsString(message1));
+        assertThat(messages.get(1), containsString(message2));
     }
 }
