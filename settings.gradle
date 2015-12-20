@@ -90,6 +90,8 @@ include "code/golodyaev-andrey/View"
 project(":code/golodyaev-andrey/View").name = "golodyaev-andrey-View"
 include "code/golodyaev-andrey/ViewModel"
 project(":code/golodyaev-andrey/ViewModel").name = "golodyaev-andrey-ViewModel"
+include "code/golodyaev-andrey/Infrastructure"
+project(":code/golodyaev-andrey/Infrastructure").name = "golodyaev-andrey-Infrastructure"
 
 // Goroxov Dmitrij
 include "code/gorokhov-dmitriy/Model"

@@ -4,6 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 
 public class ViewModelTests {
@@ -11,7 +14,8 @@ public class ViewModelTests {
 
     @Before
     public void setUp() {
-        viewModel = new ViewModel();
+        FakeLogger fakeLogger = new FakeLogger();
+        viewModel = new ViewModel(fakeLogger);
     }
 
     @After
@@ -45,8 +49,8 @@ public class ViewModelTests {
     }
 
     @Test
-    public void canSetDefaultError() {
-        assertEquals(ViewModel.ErrorStatus.EMPTY_FIELDS.toString(), viewModel.getError());
+    public void canSetDefaultStatus() {
+        assertEquals(ViewModel.Status.EMPTY_FIELDS.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -60,7 +64,7 @@ public class ViewModelTests {
 
         viewModel.parseInput();
 
-        assertEquals("", viewModel.getError());
+        assertEquals("", viewModel.getStatus());
     }
 
     @Test
@@ -73,12 +77,12 @@ public class ViewModelTests {
     }
 
     @Test
-    public void checkErrorTextWhenFieldsAreEmpty() {
+    public void checkStatusTextWhenFieldsAreEmpty() {
         fillEmptyInputFields();
 
         viewModel.parseInput();
 
-        assertEquals(ViewModel.ErrorStatus.EMPTY_FIELDS.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.EMPTY_FIELDS.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -91,13 +95,13 @@ public class ViewModelTests {
     }
 
     @Test
-    public void checkErrorTextWhenFieldsContainIncorrectData() {
+    public void checkStatusTextWhenFieldsContainIncorrectData() {
         fillCorrectInputFields();
         viewModel.setPointPlane("1; 2; a");
 
         viewModel.parseInput();
 
-        assertEquals(ViewModel.ErrorStatus.INCORRECT_DATA.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.INCORRECT_DATA.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -111,30 +115,30 @@ public class ViewModelTests {
     }
 
     @Test
-    public void checkErrorTextWhenOneIntersection() {
+    public void checkStatusTextWhenOneIntersection() {
         fillCorrectInputFields();
 
         viewModel.findIntersection();
 
-        assertEquals(ViewModel.ErrorStatus.NO_ERROR.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.ONE_INTERSECTION.toString(), viewModel.getStatus());
     }
 
     @Test
-    public void checkErrorTextWhenNoIntersection() {
+    public void checkStatusTextWhenNoIntersection() {
         fillInputFieldsNoIntersection();
 
         viewModel.findIntersection();
 
-        assertEquals(ViewModel.ErrorStatus.NO_INTERSECTION.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.NO_INTERSECTION.toString(), viewModel.getStatus());
     }
 
     @Test
-    public void checkErrorTextWhenPlaneContainsLine() {
+    public void checkStatusTextWhenPlaneContainsLine() {
         fillInputFieldsLineOnThePlane();
 
         viewModel.findIntersection();
 
-        assertEquals(ViewModel.ErrorStatus.PLANE_CONTAINS_LINE.toString(), viewModel.getError());
+        assertEquals(ViewModel.Status.PLANE_CONTAINS_LINE.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -168,6 +172,154 @@ public class ViewModelTests {
         assertEquals("", viewModel.getResult());
     }
 
+    @Test
+    public void canCreateViewModelWithLogger() {
+        assertNotNull(viewModel);
+    }
+
+    @Test(expected = Exception.class)
+    public void canConstructorThrowExceptionWithNullLoggerParameter() {
+        viewModel = new ViewModel(null);
+    }
+
+    @Test
+    public void isDefaultLogEmpty() {
+        List<String> log = viewModel.getLog();
+
+        assertEquals(0, log.size());
+    }
+
+    @Test
+    public void isLogNotEmptyWhenPressedButton() {
+        fillCorrectInputFields();
+        viewModel.findIntersection();
+        List<String> log = viewModel.getLog();
+
+        assertNotEquals(0, log.size());
+    }
+
+    @Test
+    public void isLogCorrectWhenFillPointLineField() {
+        viewModel.setPointLine("1; 2; 3");
+        viewModel.lostFocus();
+        String message = viewModel.getLog().get(0);
+
+        String focusedField = ViewModel.FocusedField.POINT_LINE.toString();
+        String fieldText = viewModel.getPointLine();
+
+        String log = viewModel.getLog().get(0);
+        assertThat(log, containsString(focusedField));
+        assertThat(log, containsString(fieldText));
+    }
+
+    @Test
+    public void isLogCorrectWhenFillVectorLineField() {
+        viewModel.setVectorLine("1; 2; 3");
+        viewModel.lostFocus();
+        String message = viewModel.getLog().get(0);
+
+        String focusedField = ViewModel.FocusedField.VECTOR_LINE.toString();
+        String fieldText = viewModel.getVectorLine();
+
+        String log = viewModel.getLog().get(0);
+        assertThat(log, containsString(focusedField));
+        assertThat(log, containsString(fieldText));
+    }
+
+    @Test
+    public void isLogCorrectWhenFillPointPlaneField() {
+        viewModel.setPointPlane("1; 2; 3");
+        viewModel.lostFocus();
+        String message = viewModel.getLog().get(0);
+
+        String focusedField = ViewModel.FocusedField.POINT_PLANE.toString();
+        String fieldText = viewModel.getPointPlane();
+
+        String log = viewModel.getLog().get(0);
+        assertThat(log, containsString(focusedField));
+        assertThat(log, containsString(fieldText));
+    }
+
+    @Test
+    public void isLogCorrectWhenFillNormalPlaneField() {
+        viewModel.setNormalPlane("1; 2; 3");
+        viewModel.lostFocus();
+        String message = viewModel.getLog().get(0);
+
+        String focusedField = ViewModel.FocusedField.NORMAL_PLANE.toString();
+        String fieldText = viewModel.getNormalPlane();
+
+        String log = viewModel.getLog().get(0);
+        assertThat(log, containsString(focusedField));
+        assertThat(log, containsString(fieldText));
+    }
+
+    @Test
+    public void canLogSeveralEvents() {
+        viewModel.setNormalPlane("1; 2; 3");
+        viewModel.lostFocus();
+        fillCorrectInputFields();
+        viewModel.findIntersection();
+        List<String> log = viewModel.getLog();
+
+        assertEquals(3, log.size());
+    }
+
+    @Test
+    public void isOperationNotLoggedWhenFocusDidntLost() {
+        viewModel.setPointLine("1; 2; 3");
+        viewModel.setVectorLine("1; 2; 3");
+        viewModel.setPointPlane("1; 2; 3");
+        viewModel.setNormalPlane("1; 2; 3");
+        List<String> log = viewModel.getLog();
+
+        assertEquals(0, log.size());
+    }
+
+    @Test
+    public void isOperationNotLoggedWhenInputSameData() {
+        viewModel.setPointLine("1; 2; 3");
+        viewModel.lostFocus();
+        viewModel.setPointLine("1; 2; 3");
+        viewModel.lostFocus();
+        List<String> log = viewModel.getLog();
+
+        assertEquals(1, log.size());
+    }
+
+    @Test
+    public void canLogNoIntersectionResult() {
+        fillInputFieldsNoIntersection();
+
+        viewModel.findIntersection();
+        String message = viewModel.getLog().get(1);
+
+        assertThat(message, containsString(ViewModel.Status.NO_INTERSECTION.toString()));
+    }
+
+    @Test
+    public void canLogOneIntersectionResult() {
+        fillCorrectInputFields();
+
+        viewModel.findIntersection();
+        String message = viewModel.getLog().get(1);
+
+        assertThat(message, containsString(ViewModel.Status.ONE_INTERSECTION.toString()));
+    }
+
+    @Test
+    public void canLogLineOnThePlaneResult() {
+        fillInputFieldsLineOnThePlane();
+
+        viewModel.findIntersection();
+        String message = viewModel.getLog().get(1);
+
+        assertThat(message, containsString(ViewModel.Status.PLANE_CONTAINS_LINE.toString()));
+    }
+
+    public void setViewModel(final ViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
     private void fillEmptyInputFields() {
         viewModel.setPointLine("");
         viewModel.setVectorLine("");

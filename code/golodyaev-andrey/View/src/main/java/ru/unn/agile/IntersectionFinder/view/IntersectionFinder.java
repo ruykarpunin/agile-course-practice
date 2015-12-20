@@ -1,12 +1,11 @@
 package ru.unn.agile.IntersectionFinder.view;
 
 import ru.unn.agile.IntersectionFinder.viewmodel.ViewModel;
+import ru.unn.agile.IntersectionFinder.infrastructure.Logger;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.util.List;
 
 public final class IntersectionFinder {
     private final ViewModel viewModel;
@@ -17,7 +16,8 @@ public final class IntersectionFinder {
     private JTextField normalPlane;
     private JTextField result;
     private JButton findIntersectionButton;
-    private JLabel errorLabel;
+    private JLabel statusLabel;
+    private JList<String> logList;
 
     private IntersectionFinder(final ViewModel viewModel) {
         this.viewModel = viewModel;
@@ -30,6 +30,7 @@ public final class IntersectionFinder {
                 backBind();
             }
         });
+
         KeyAdapter keyListener = new KeyAdapter() {
             public void keyReleased(final KeyEvent e) {
                 bind();
@@ -41,11 +42,24 @@ public final class IntersectionFinder {
         vectorLine.addKeyListener(keyListener);
         pointPlane.addKeyListener(keyListener);
         normalPlane.addKeyListener(keyListener);
+
+        FocusAdapter focusLostListener = new FocusAdapter() {
+            public void focusLost(final FocusEvent e) {
+                bind();
+                IntersectionFinder.this.viewModel.lostFocus();
+                backBind();
+            }
+        };
+        pointLine.addFocusListener(focusLostListener);
+        vectorLine.addFocusListener(focusLostListener);
+        pointPlane.addFocusListener(focusLostListener);
+        normalPlane.addFocusListener(focusLostListener);
     }
 
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Intersection Finder");
-        frame.setContentPane(new IntersectionFinder(new ViewModel()).mainPanel);
+        Logger logger = new Logger("./IntersectionFinder.log");
+        frame.setContentPane(new IntersectionFinder(new ViewModel(logger)).mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -61,6 +75,10 @@ public final class IntersectionFinder {
     private void backBind() {
         findIntersectionButton.setEnabled(viewModel.isFinderButtonEnabled());
         result.setText(viewModel.getResult());
-        errorLabel.setText(viewModel.getError());
+        statusLabel.setText(viewModel.getStatus());
+
+        List<String> log = viewModel.getLog();
+        String[] strings = log.toArray(new String[log.size()]);
+        logList.setListData(strings);
     }
 }
