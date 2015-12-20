@@ -43,7 +43,7 @@
    1. После этого предлагается удалить все сгенерированные файлы, в том числе
       файлы проектов и билд-директории:
 ```
-$ cd <agile-course-practice>/code
+$ cd <agile-course-practice>
 $ gradle clean cleanIdea cleanIdeaWorkspace cleanEclipse
 ```
    1. Теперь стоит скачать обновления с GitHub, после чего создать новую ветку
