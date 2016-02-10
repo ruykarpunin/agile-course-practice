@@ -185,7 +185,7 @@ public class HuffmanTests {
         }
         else if(!list2.isEmpty()){
             result += "\n";
-            list = new LinkedList<Node>();
+            list = new LinkedList<>();
             list2 = betterPrint(list2, list, result);
         }
         else {
