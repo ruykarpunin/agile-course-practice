@@ -1,7 +1,10 @@
 package ru.unn.agile.Huffman.Model;
-import java.util.*;
-public class Huffman {
 
+import java.util.*;
+
+public class Huffman {
+    private  Huffman()
+    { }
     /**
      * Builds a frequency map of characters for the given string.
      *
@@ -14,7 +17,12 @@ public class Huffman {
         Map<Character, Integer> freqMap = new HashMap<>();
         Integer freq;
         for (Character c : s.toCharArray()) {
-            freq = null == (freq = freqMap.get(c)) ? 1 : ++freq;
+            freq = freqMap.get(c);
+            if (null == (freq)){
+                freq = 1;
+            }else {
+                freq = ++freq;
+            }
             freqMap.put(c, freq);
         }
         return freqMap;

@@ -6,6 +6,8 @@ public class HuffmanFileEncode {
     private static final int MAX_LENGTH = 7;
     private static final int WORD_LENGTH = 7;
     private static final int MAX_ARGUMENTS = 3;
+    private  HuffmanFileEncode()
+    { }
     public static void main(final String... args) {
 
         if (args.length < MAX_ARGUMENTS) {
@@ -50,8 +52,9 @@ public class HuffmanFileEncode {
      */
     private static byte[] encode(final String file) {
         Node huffmanTree;
+        huffmanTree = Huffman.buildHuffmanTree(Huffman.buildFrequencyMap(file));
         EncodedString encString = Huffman.encode(Huffman.buildEncodingMap(
-                (huffmanTree = Huffman.buildHuffmanTree(Huffman.buildFrequencyMap(file)))), file);
+                (huffmanTree)), file);
         try {
             System.out.println("Attempting to serialize huffman tree for later decoding use...");
             serializeHuffmanTree(huffmanTree);
@@ -209,7 +212,8 @@ public class HuffmanFileEncode {
             result = q % 2 + result;
             q /= 2;
         }
-        while (result.length() < MAX_LENGTH){
+        while (result.length() < MAX_LENGTH)
+        {
             result = '0' + result;
         }
         if (num < 0) {
