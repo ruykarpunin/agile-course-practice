@@ -175,7 +175,7 @@ public class HuffmanTests {
         }
     }
 
-    private static LinkedList betterPrint(LinkedList<Node> list, LinkedList<Node> list2, String result) {
+    private static LinkedList<Node> betterPrint(LinkedList<Node> list, LinkedList<Node> list2, String result) {
         if(!list.isEmpty()) {
             Node curr = list.remove();
             result += "  " + curr.getCharacter() + ":" + curr.getFrequency() + "  ";
