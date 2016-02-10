@@ -18,7 +18,7 @@ public final class Huffman {
         Integer freq;
         for (Character c : s.toCharArray()) {
             freq = freqMap.get(c);
-            if (null == freq){
+            if (null == freq) {
                 freq = 1;
             } else {
                 freq = ++freq;
