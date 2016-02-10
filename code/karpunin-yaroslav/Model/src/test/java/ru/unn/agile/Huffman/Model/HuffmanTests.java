@@ -7,10 +7,6 @@ import static org.junit.Assert.*;
 
 public class HuffmanTests {
 
-    private void mapMes(Map<Character, Integer> freqMap,String msg)
-	{
-	freqMap = Huffman.buildFrequencyMap(msg);
-	}	
 
 
     @Test
@@ -78,16 +74,15 @@ public class HuffmanTests {
 
     @Test
     public void encode1() {
-        Map<Character, Integer> freqMap2;
-mapMes(freqMap2,"I'm Yaroslav Karpunin") //'freqmap2' & 'mapMes' because travis tell, that copy/past with string 64
+        Map<Character, Integer> freqMap2 = Huffman.buildFrequencyMap("I'm Yaroslav Karpunin");
         Node tree2 = Huffman.buildHuffmanTree(freqMap2);
         Map<Character, EncodedString> encMap2 = Huffman.buildEncodingMap(tree2);
         for(Map.Entry<Character, EncodedString> entry2 : encMap2.entrySet()) {
             System.out.println(entry2.getKey() + ": " + encString(entry2.getValue()));
         }
-        EncodedString string2 = Huffman.encode(encMap, "I'm Yaroslav Karpunin");
+        EncodedString string2 = Huffman.encode(encMap2, "I'm Yaroslav Karpunin");
 
-        System.out.println("Encoded String: "  + Math.ceil(string.length()/8) + " bytes");
+        System.out.println("Encoded String: "  + Math.ceil(string2.length()/8) + " bytes");
         System.out.println("Normal String: "  + "I'm Yaroslav Karpunin".length() + " bytes");
         System.out.println(encString(string2));
 
@@ -184,8 +179,8 @@ mapMes(freqMap2,"I'm Yaroslav Karpunin") //'freqmap2' & 'mapMes' because travis 
         if(!list.isEmpty()) {
             Node curr = list.remove();
             result += "  " + curr.character + ":" + curr.frequency + "  ";
-            if(null != curr.left) list2.add(curr.left);
-            if(null != curr.right) list2.add(curr.right);
+            if(null != curr.getLeft()) list2.add(curr.getLeft());
+            if(null != curr.getRight()) list2.add(curr.getRight());
 
             list2 = betterPrint(list, list2, result);
         }
@@ -214,10 +209,10 @@ mapMes(freqMap2,"I'm Yaroslav Karpunin") //'freqmap2' & 'mapMes' because travis 
     private static void print(Node n, String depth) {
         String depthIncrementer = "   ";
         System.out.println(depth + n.character +":" + n.frequency + depth);
-        if(!(n.left == null && n.right == null)) {
-            if(n.left != null) print(n.left, depth + depthIncrementer);
+        if(!(n.getLeft() == null && n.getRight() == null)) {
+            if(n.getLeft() != null) print(n.getLeft(), depth + depthIncrementer);
             else System.out.println(depth + depthIncrementer  + "**");
-            if(n.right != null) print(n.right, depth + depthIncrementer);
+            if(n.getRight() != null) print(n.getRight(), depth + depthIncrementer);
             else System.out.println(depth + depthIncrementer + "**");
         }
     }

@@ -10,16 +10,16 @@ public class Huffman {
 	 * @param s
 	 * @return
 	 */
-	public static Map<Character, Integer> buildFrequencyMap(String s) {
-		Map<Character, Integer> freqMap = new HashMap<Character, Integer>();
-		Integer freq = 0;
+	public static Map<Character, Integer> buildFrequencyMap(final String s) {
+		Map<Character, Integer> freqMap = new HashMap<>();
+		Integer freq;
 		for(Character c : s.toCharArray()) {
 			freq = null == (freq = freqMap.get(c)) ? 1 : ++freq;
 			freqMap.put(c, freq);
 		}
 		return freqMap;
 	}
-	
+
 	/**
 	 * Build the Huffman tree using the frequencies given.
 	 * 
@@ -28,22 +28,22 @@ public class Huffman {
 	 * @param freq
 	 * @return
 	 */
-	public static Node buildHuffmanTree(Map<Character, Integer> freq) {
-		PriorityQueue<Node> pq = new PriorityQueue<Node>();
-		for(Map.Entry<Character, Integer> entry : freq.entrySet()) {
+	public static Node buildHuffmanTree(final Map<Character, Integer> freq) {
+		PriorityQueue<Node> pq = new PriorityQueue<>();
+		for (Map.Entry<Character, Integer> entry : freq.entrySet()) {
 			pq.add(new Node(entry.getKey(), entry.getValue()));
 		}
-		if(pq.size() == 1) {
+		if (pq.size() == 1) {
 			pq.add(new Node(pq.poll(), new Node((char)0, 0)));
 		}
 		else {
-			while(pq.size() > 1) {
+			while (pq.size() > 1) {
 				pq.add(new Node(pq.poll(), pq.poll()));
 			}
 		}
 		return pq.poll();
 	}
-	
+
  	/**
  	 * Traverse the tree and extract the encoding for each character in the tree
  	 * 
@@ -52,35 +52,33 @@ public class Huffman {
  	 * @param tree
  	 * @return
  	 */
- 	public static Map<Character, EncodedString> buildEncodingMap(Node tree) {
+ 	public static Map<Character, EncodedString> buildEncodingMap(final Node tree) {
 		return buildEncodingMap(tree, new EncodedString(), new HashMap<Character, EncodedString>());
  	}
 
- 	private static Map<Character, EncodedString> buildEncodingMap(Node tree, EncodedString soFar, Map<Character, EncodedString> encMap) {
- 		if(tree.character != 0) {
+ 	private static Map<Character, EncodedString> buildEncodingMap(final Node tree, final EncodedString soFar, final Map<Character, EncodedString> encMap) {
+ 		if (tree.character != 0) {
  			EncodedString str = new EncodedString();
  			str.concat(soFar);
  			encMap.put(tree.character, str);
  		}
- 		if(null != tree.left)
+ 		if (null != tree.getLeft())
  		{
- 			//go left
  			EncodedString str = new EncodedString();
  			str.concat(soFar);
  			str.zero();
- 			buildEncodingMap(tree.left, str, encMap);
+ 			buildEncodingMap(tree.getLeft(), str, encMap);
  		}
- 		if(null != tree.right)
+ 		if (null != tree.getRight())
  		{
- 			//go right
  			EncodedString str = new EncodedString();
  			str.concat(soFar);
  			str.one();
- 			buildEncodingMap(tree.right, str, encMap);
+ 			buildEncodingMap(tree.getRight(), str, encMap);
  		}
  		return encMap;
  	}
-	
+
 	/**
 	 * Encode each character in the string using the map provided.
 	 * 
@@ -93,15 +91,15 @@ public class Huffman {
 	 * @param s
 	 * @return
 	 */
-	public static EncodedString encode(Map<Character, EncodedString> encodingMap, String s) {
+	public static EncodedString encode(final Map<Character, EncodedString> encodingMap,final String s) {
 		EncodedString str = new EncodedString();
-		for(char c : s.toCharArray()) {
-			if(null != encodingMap.get(c))
+		for (char c : s.toCharArray()) {
+			if (null != encodingMap.get(c))
 				str.concat(encodingMap.get(c));
 		}
 		return str;
 	}
-	
+
 	/**
 	 * Decode the encoded string using the tree provided.
 	 * 
@@ -113,21 +111,19 @@ public class Huffman {
 	 * @param es
 	 * @return
 	 */
-	public static String decode(Node tree, EncodedString es) {
+	public static String decode(final Node tree,final EncodedString es) {
 		Iterator<Byte> iter = es.iterator();
 		StringBuilder builder = new StringBuilder();
 		Byte next;
 		Node curr = tree;
 		while(iter.hasNext()) {
 			next = iter.next();
-			curr = next == 0 ? curr.left : curr.right;
+			curr = next == 0 ? curr.getLeft() : curr.getRight();
 
-			if(null == curr) {
-				//crash and burn
-			}
+			if (null == curr) { }
 
-			else if(curr.character != 0) {
-				builder.append(curr.character);
+			else if (curr.character != 0) {
+				builder.append( curr.character);
 				curr = tree;
 			}
 		}

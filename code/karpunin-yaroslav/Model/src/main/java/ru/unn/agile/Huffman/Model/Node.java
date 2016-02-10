@@ -1,35 +1,44 @@
 package ru.unn.agile.Huffman.Model;
-
-
 public class Node implements Comparable<Node>, java.io.Serializable {
-
     private static Integer timer = 0;
-    
     public final Integer time;
     public final Integer frequency;
     public final Character character;
-    
-    public final Node left;
-    public final Node right;
-    
-    public Node(Character character, Integer frequency) {
+    private Node left;
+    private Node right;
+    public Node getLeft()
+    {
+        return  left;
+    }
+
+    public void setLeft(Node value)
+    {
+        left = value;
+    }
+    public Node getRight()
+    {
+        return  right;
+    }
+    public void setRight(Node value)
+    {
+        right = value;
+    }
+    public Node(final Character character, final Integer frequency) {
         this.time = timer++;
         this.character = character;
         this.frequency = frequency;
         this.left = null;
         this.right = null;
     }
-    
-    public Node(Node less, Node more) {
+    public Node(final Node less, final Node more) {
         this.time = timer++;
         this.character = 0;
         this.frequency = less.frequency + more.frequency;
         this.left = less;
         this.right = more;
     }
-    
     @Override
-    public int compareTo(Node that) {
+    public int compareTo(final Node that) {
         if (this.frequency == that.frequency) {
             if (this.character == that.character) {
                 return this.time - that.time;
@@ -40,15 +49,13 @@ public class Node implements Comparable<Node>, java.io.Serializable {
             return this.frequency - that.frequency;
         }
     }
-    
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj instanceof Node) {
             return ((Node) obj).time == time;
         }
         return false;
     }
-    
     @Override
     public int hashCode() {
         return time;

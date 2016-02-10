@@ -76,10 +76,10 @@ public class HuffmanTest {
 		Node tree = Huffman.buildHuffmanTree(frequencyMap);
 		
 		assertEquals((Integer) 8, (Integer) tree.frequency);
-		assertEquals((Integer) 3, (Integer) tree.left.frequency);
-		assertEquals((Integer) 5, (Integer) tree.right.frequency);
-		assertEquals((Integer) 1, (Integer) tree.left.left.frequency);
-		assertEquals((Integer) 2, (Integer) tree.left.right.frequency);
+		assertEquals((Integer) 3, (Integer) tree.getLeft().frequency);
+		assertEquals((Integer) 5, (Integer) tree.getRight().frequency);
+		assertEquals((Integer) 1, (Integer) tree.getLeft().getLeft().frequency);
+		assertEquals((Integer) 2, (Integer) tree.getLeft().getRight().frequency);
 	}
 	
 	@Test (timeout = 1000)
