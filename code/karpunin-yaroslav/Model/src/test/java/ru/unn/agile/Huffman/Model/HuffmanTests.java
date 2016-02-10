@@ -181,7 +181,6 @@ public class HuffmanTests {
             result += "  " + curr.getCharacter() + ":" + curr.getFrequency() + "  ";
             if(null != curr.getLeft()) list2.add(curr.getLeft());
             if(null != curr.getRight()) list2.add(curr.getRight());
-
             list2 = betterPrint(list, list2, result);
         }
         else if(!list2.isEmpty()){
