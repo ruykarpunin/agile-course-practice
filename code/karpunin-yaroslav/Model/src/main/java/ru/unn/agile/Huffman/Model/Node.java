@@ -10,18 +10,9 @@ public class Node implements Comparable<Node>, java.io.Serializable {
     {
         return  left;
     }
-
-    public void setLeft(Node value)
-    {
-        left = value;
-    }
     public Node getRight()
     {
         return  right;
-    }
-    public void setRight(Node value)
-    {
-        right = value;
     }
     public Node(final Character character, final Integer frequency) {
         this.time = timer++;
