@@ -116,6 +116,8 @@ include "code/kalyakulina-alena/Infrastructure"
 project(":code/kalyakulina-alena/Infrastructure").name = "kalyakulina-alena-Infrastructure"
 
 // Karpunin Yaroslav
+include "code/karpunin-yaroslav/Model"
+project(":code/karpunin-yaroslav/Model").name = "karpunin-yaroslav-Model"
 // Kazanbaev Dmitry
 include "code/kazanbaev-dmitry/Model"
 project(":code/kazanbaev-dmitry/Model").name = "kazanbaev-dmitry-Model"
