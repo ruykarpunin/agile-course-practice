@@ -23,10 +23,10 @@ public class EncodedString implements Iterable<Byte> {
 		if (!list.isEmpty()) {
 			return list.remove(list.size() - 1);
 		} else {
-			throw new NoSuchElementException(); 
+			throw new NoSuchElementException();
 		}
 	}
-	public void concat(EncodedString es) {
+	public void concat(final EncodedString es) {
 		list.addAll(es.list);
 	}
 	public int length() {

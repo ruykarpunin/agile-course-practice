@@ -1,19 +1,13 @@
 package ru.unn.agile.Huffman.Model;
 public class Node implements Comparable<Node>, java.io.Serializable {
-    private static Integer timer = 0;
-    public final Integer time;
-    public final Integer frequency;
-    public final Character character;
+    private Integer timer = 0;
+    private Integer time;
+    private Integer frequency;
+    private Character character;
     private Node left;
     private Node right;
-    public Node getLeft()
-    {
-        return  left;
-    }
-    public Node getRight()
-    {
-        return  right;
-    }
+    public Node getLeft() { return  left; }
+    public Node getRight() { return  right; }
     public Node(final Character character, final Integer frequency) {
         this.time = timer++;
         this.character = character;
@@ -28,6 +22,13 @@ public class Node implements Comparable<Node>, java.io.Serializable {
         this.left = less;
         this.right = more;
     }
+    public Character getCharacter() { return character; }
+    public void setCharacter(final Character value) { character = value; }
+    public Integer getTime() { return time; }
+    public void setTime(final Integer value) { time = value; }
+    public Integer getTimer() { return timer; }
+    public void setTimer(final Integer value) { timer = value; }
+    public Integer getFrequency() { return frequency; }
     @Override
     public int compareTo(final Node that) {
         if (this.frequency == that.frequency) {

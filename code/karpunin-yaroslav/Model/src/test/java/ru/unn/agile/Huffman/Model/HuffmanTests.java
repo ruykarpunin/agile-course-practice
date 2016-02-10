@@ -178,7 +178,7 @@ public class HuffmanTests {
     private static LinkedList betterPrint(LinkedList<Node> list, LinkedList<Node> list2, String result) {
         if(!list.isEmpty()) {
             Node curr = list.remove();
-            result += "  " + curr.character + ":" + curr.frequency + "  ";
+            result += "  " + curr.getCharacter() + ":" + curr.getFrequency() + "  ";
             if(null != curr.getLeft()) list2.add(curr.getLeft());
             if(null != curr.getRight()) list2.add(curr.getRight());
 
@@ -208,7 +208,7 @@ public class HuffmanTests {
 
     private static void print(Node n, String depth) {
         String depthIncrementer = "   ";
-        System.out.println(depth + n.character +":" + n.frequency + depth);
+        System.out.println(depth + n.getCharacter() +":" + n.getFrequency() + depth);
         if(!(n.getLeft() == null && n.getRight() == null)) {
             if(n.getLeft() != null) print(n.getLeft(), depth + depthIncrementer);
             else System.out.println(depth + depthIncrementer  + "**");
