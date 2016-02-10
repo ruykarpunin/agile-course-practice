@@ -33,9 +33,9 @@ public class Huffman {
         for (Map.Entry<Character, Integer> entry : freq.entrySet()) {
             pq.add(new Node(entry.getKey(), entry.getValue()));
         }
-        if (pq.size() == 1) { pq.add( new Node( pq.poll(), new Node( (char) 0, 0)));
-        }
-        else {
+        if (pq.size() == 1) {
+			pq.add(new Node(pq.poll(), new Node((char) 0, 0)));
+        } else {
             while (pq.size() > 1) {
                 pq.add(new Node(pq.poll(), pq.poll()));
             }
@@ -57,8 +57,10 @@ public class Huffman {
                 , new HashMap<Character, EncodedString>());
      }
 
-     private static Map<Character, EncodedString> buildEncodingMap(final Node tree, final EncodedString soFar,
-                                                                  final Map<Character, EncodedString> encMap) {
+     private static Map<Character, EncodedString> buildEncodingMap(final Node tree,
+																   final EncodedString soFar,
+																   final Map<Character,
+																		   EncodedString> encMap) {
          if (tree.getCharacter() != 0) {
              EncodedString str = new EncodedString();
              str.concat(soFar);
@@ -92,7 +94,8 @@ public class Huffman {
      * @param s
      * @return
      */
-    public static EncodedString encode( final Map<Character, EncodedString> encodingMap, final String s ) {
+    public static EncodedString encode(final Map<Character, EncodedString> encodingMap,
+									   final String s) {
         EncodedString str = new EncodedString();
         for (char c : s.toCharArray()) {
             if (null != encodingMap.get(c)) {
@@ -120,15 +123,12 @@ public class Huffman {
         StringBuilder builder = new StringBuilder();
         Byte next;
         Node curr = tree;
-        while (iter.hasNext())
-        {
+        while (iter.hasNext()) {
             next = iter.next();
             curr = next == 0 ? curr.getLeft() : curr.getRight();
-            if ( null != curr )
-            {
-                if ( curr.getCharacter() != 0 )
-                {
-                    builder.append( curr.getCharacter() );
+            if (null != curr) {
+                if (curr.getCharacter() != 0) {
+                    builder.append(curr.getCharacter());
                     curr = tree;
                 }
             }

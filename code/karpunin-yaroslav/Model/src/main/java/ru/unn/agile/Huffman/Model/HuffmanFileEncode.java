@@ -15,10 +15,8 @@ public class HuffmanFileEncode {
 
         String file = "";
         Object toWrite = "";
-        try
-        {
-            switch (args[2])
-            {
+        try {
+            switch (args[2]) {
                 case "-e":
                             file = readFile(args[0]);
                             toWrite = encode(file);
@@ -32,19 +30,14 @@ public class HuffmanFileEncode {
                                 + "Do you even lift, bro?");
                             System.exit(0);
             }
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println("UGGGH. PROBLEMS WITH YOUR FILE, BRO");
             System.exit(0);
         }
 
-        try
-        {
+        try {
             writeFile(args[1], toWrite);
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println("SUM PROBLEMS OCCURRED WITH YOUR FILE MISTER/SIR/MADAM");
             System.exit(0);
         }
@@ -57,16 +50,13 @@ public class HuffmanFileEncode {
      */
     private static byte[] encode( final String file ) {
         Node huffmanTree;
-        EncodedString encString = Huffman.encode( Huffman.buildEncodingMap (
-                ( huffmanTree = Huffman.buildHuffmanTree (
-                        Huffman.buildFrequencyMap ( file ) ) ) ) , file) ;
-
+        EncodedString encString = Huffman.encode(Huffman.buildEncodingMap(
+                (huffmanTree = Huffman.buildHuffmanTree(Huffman.buildFrequencyMap(file)))), file);
         try {
-            System.out.println( "Attempting to serialize huffman tree for later decoding use...");
+            System.out.println("Attempting to serialize huffman tree for later decoding use...");
             serializeHuffmanTree(huffmanTree);
-            System.out.println( "Huffman tree serialized successfully"); }
-        catch (IOException ex)
-        {
+            System.out.println("Huffman tree serialized successfully");
+        } catch (IOException ex) {
             System.out.println(
                     "Failed to serialize huffman tree, you will be unable to decode this file.");
         }
@@ -80,18 +70,13 @@ public class HuffmanFileEncode {
      */
     private static String decode(final String file) {
         Node tree = null;
-        try
-        {
+        try {
             tree = deserializeHuffmanTree();
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println("Unable to find huffman tree for decoding."
                     + " Massive failure imminent. Virus activated.");
             System.exit(0);
-        }
-        catch (ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
             System.out.println("Corrupted huffman tree serialization. "
                     + "Imminent failure; massive. Viruses detected, activation begun.");
             System.exit(0);
@@ -146,20 +131,15 @@ public class HuffmanFileEncode {
     }
 
     private static void writeFile(final String file , final Object contents) throws IOException {
-        if (contents instanceof String)
-        {
+        if (contents instanceof String) {
             writeFile(file, (String) contents);
         }
-        else if (contents instanceof byte[])
-        {
+        else if (contents instanceof byte[]) {
             writeFile(file, (byte[]) contents);
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        } else {
+            throw new IllegalArgumentException(); }
     }
-    private static void writeFile (final String file, final String contents) throws IOException {
+    private static void writeFile( final String file, final String contents) throws IOException {
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         bw.write(contents);
@@ -177,17 +157,11 @@ public class HuffmanFileEncode {
     private static EncodedString stringToEncoded(final String str) {
         EncodedString enc = new EncodedString();
         for (char c : str.toCharArray()) {
-            if (c == '0')
-            {
+            if (c == '0') {
                 enc.zero();
-            }
-            else
-            {
-                enc.one();
-            }
-        }
-        return enc;
-    }
+            } else {
+                enc.one(); } }
+        return enc;}
 
     private static byte[] encodedToBytes(final EncodedString str) {
        return bytesFromString(encodedToString(str));
@@ -230,9 +204,12 @@ public class HuffmanFileEncode {
             result = q % 2 + result;
             q /= 2;
         }
-        while (result.length() < MAX_LENGTH){ result = '0' + result;}
-        if (num < 0) { result = '1' + result; }
-        else { result = '0' + result; }
+        while (result.length() < MAX_LENGTH){
+            result = '0' + result; }
+        if (num < 0) {
+            result = '1' + result; }
+        else {
+            result = '0' + result;}
         return result;
     }
     /**
