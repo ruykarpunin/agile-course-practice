@@ -7,6 +7,12 @@ import static org.junit.Assert.*;
 
 public class HuffmanTests {
 
+    private void mapMes(Map<Character, Integer> freqMap,String msg)
+	{
+	freqMap = Huffman.buildFrequencyMap(msg);
+	}	
+
+
     @Test
     public void freqMapTest() {
         Map<Character, Integer> freqMap = Huffman.buildFrequencyMap("Geewillickersg");
@@ -72,7 +78,8 @@ public class HuffmanTests {
 
     @Test
     public void encode1() {
-        Map<Character, Integer> freqMap2 = Huffman.buildFrequencyMap("I'm Yaroslav Karpunin");//'freqmap2' because travis tell, that copy/past with string 64
+        Map<Character, Integer> freqMap2;
+mapMes(freqMap2,"I'm Yaroslav Karpunin") //'freqmap2' & 'mapMes' because travis tell, that copy/past with string 64
         Node tree2 = Huffman.buildHuffmanTree(freqMap2);
         Map<Character, EncodedString> encMap2 = Huffman.buildEncodingMap(tree2);
         for(Map.Entry<Character, EncodedString> entry2 : encMap2.entrySet()) {
