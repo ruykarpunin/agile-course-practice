@@ -34,7 +34,7 @@ public class Huffman {
             pq.add(new Node(entry.getKey(), entry.getValue()));
         }
         if (pq.size() == 1) {
-			pq.add(new Node(pq.poll(), new Node((char) 0, 0)));
+            pq.add(new Node(pq.poll(), new Node((char) 0, 0)));
         } else {
             while (pq.size() > 1) {
                 pq.add(new Node(pq.poll(), pq.poll()));
@@ -57,10 +57,9 @@ public class Huffman {
                 , new HashMap<Character, EncodedString>());
      }
 
-     private static Map<Character, EncodedString> buildEncodingMap(final Node tree,
-																   final EncodedString soFar,
-																   final Map<Character,
-																		   EncodedString> encMap) {
+     private static Map<Character, EncodedString>
+     buildEncodingMap(final Node tree, final EncodedString soFar,
+                      final Map<Character, EncodedString> encMap) {
          if (tree.getCharacter() != 0) {
              EncodedString str = new EncodedString();
              str.concat(soFar);
@@ -95,7 +94,7 @@ public class Huffman {
      * @return
      */
     public static EncodedString encode(final Map<Character, EncodedString> encodingMap,
-									   final String s) {
+                                       final String s) {
         EncodedString str = new EncodedString();
         for (char c : s.toCharArray()) {
             if (null != encodingMap.get(c)) {

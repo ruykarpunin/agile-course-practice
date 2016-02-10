@@ -48,7 +48,7 @@ public class HuffmanFileEncode {
      * @param file      the file contents to encode
      * @return a byte array of stuff to write, yo.
      */
-    private static byte[] encode( final String file ) {
+    private static byte[] encode(final String file) {
         Node huffmanTree;
         EncodedString encString = Huffman.encode(Huffman.buildEncodingMap(
                 (huffmanTree = Huffman.buildHuffmanTree(Huffman.buildFrequencyMap(file)))), file);
@@ -125,7 +125,9 @@ public class HuffmanFileEncode {
                 byte b = ds.readByte();
                 builder.append(toBinary(b));
             }
-        } catch (EOFException eof) { System.out.println(eof); }
+        } catch (EOFException eof) {
+            System.out.println(eof);
+        }
         ds.close();
         return builder.toString();
     }
@@ -133,13 +135,13 @@ public class HuffmanFileEncode {
     private static void writeFile(final String file , final Object contents) throws IOException {
         if (contents instanceof String) {
             writeFile(file, (String) contents);
-        }
-        else if (contents instanceof byte[]) {
+        } else if (contents instanceof byte[]) {
             writeFile(file, (byte[]) contents);
         } else {
-            throw new IllegalArgumentException(); }
+            throw new IllegalArgumentException();
+        }
     }
-    private static void writeFile( final String file, final String contents) throws IOException {
+    private static void writeFile(final String file, final String contents) throws IOException {
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         bw.write(contents);
@@ -160,8 +162,11 @@ public class HuffmanFileEncode {
             if (c == '0') {
                 enc.zero();
             } else {
-                enc.one(); } }
-        return enc;}
+                enc.one();
+            }
+        }
+        return enc;
+    }
 
     private static byte[] encodedToBytes(final EncodedString str) {
        return bytesFromString(encodedToString(str));
@@ -205,11 +210,13 @@ public class HuffmanFileEncode {
             q /= 2;
         }
         while (result.length() < MAX_LENGTH){
-            result = '0' + result; }
+            result = '0' + result;
+        }
         if (num < 0) {
-            result = '1' + result; }
-        else {
-            result = '0' + result;}
+            result = '1' + result;
+        } else {
+            result = '0' + result;
+        }
         return result;
     }
     /**
