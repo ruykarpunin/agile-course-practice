@@ -2,9 +2,9 @@ package ru.unn.agile.Huffman.Model;
 
 import java.util.*;
 
-public class Huffman {
-    private  Huffman()
-    { }
+public final class Huffman {
+    private Huffman() {
+    }
     /**
      * Builds a frequency map of characters for the given string.
      *
@@ -18,9 +18,9 @@ public class Huffman {
         Integer freq;
         for (Character c : s.toCharArray()) {
             freq = freqMap.get(c);
-            if (null == (freq)){
+            if (null == freq){
                 freq = 1;
-            }else {
+            } else {
                 freq = ++freq;
             }
             freqMap.put(c, freq);

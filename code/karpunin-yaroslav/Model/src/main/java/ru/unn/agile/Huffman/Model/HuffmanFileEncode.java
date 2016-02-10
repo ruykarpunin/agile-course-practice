@@ -2,12 +2,12 @@ package ru.unn.agile.Huffman.Model;
 import java.io.*;
 import java.util.*;
 
-public class HuffmanFileEncode {
+public final class HuffmanFileEncode {
     private static final int MAX_LENGTH = 7;
     private static final int WORD_LENGTH = 7;
     private static final int MAX_ARGUMENTS = 3;
-    private  HuffmanFileEncode()
-    { }
+    private  HuffmanFileEncode() {
+    }
     public static void main(final String... args) {
 
         if (args.length < MAX_ARGUMENTS) {
@@ -212,8 +212,7 @@ public class HuffmanFileEncode {
             result = q % 2 + result;
             q /= 2;
         }
-        while (result.length() < MAX_LENGTH)
-        {
+        while (result.length() < MAX_LENGTH) {
             result = '0' + result;
         }
         if (num < 0) {
