@@ -72,7 +72,7 @@ public class HuffmanTests {
 
     @Test
     public void encode1() {
-        Map<Character, Integer> freqMap = Huffman.buildFrequencyMap("I'm Yaroslav Karpunin");
+        Map<Character, Integer> freqMap2 = Huffman.buildFrequencyMap("I'm Yaroslav Karpunin");//'freqmap2' because travis tell, that copy/past with string 64
         Node tree = Huffman.buildHuffmanTree(freqMap);
         Map<Character, EncodedString> encMap = Huffman.buildEncodingMap(tree);
         for(Map.Entry<Character, EncodedString> entry : encMap.entrySet()) {
@@ -88,7 +88,7 @@ public class HuffmanTests {
 
     @Test
     public void decode1() {
-        Map<Character, Integer> freqMap = Huffman.buildFrequencyMap("I'm Yaroslav Karpunin");
+        Map<Character, Integer> freqMap3 = Huffman.buildFrequencyMap("I'm Yaroslav Karpunin");
         Node tree = Huffman.buildHuffmanTree(freqMap);
         Map<Character, EncodedString> encMap = Huffman.buildEncodingMap(tree);
         EncodedString enc = Huffman.encode(encMap, "I'm Yaroslav Karpunin");
@@ -98,7 +98,7 @@ public class HuffmanTests {
 
     @Test
     public void decode2() {
-        Map<Character, Integer> freqMap = Huffman.buildFrequencyMap("Polly Wolly Snack Pack Pocket");
+        Map<Character, Integer> freqMap4 = Huffman.buildFrequencyMap("Polly Wolly Snack Pack Pocket");
         Node tree = Huffman.buildHuffmanTree(freqMap);
         Map<Character, EncodedString> encMap = Huffman.buildEncodingMap(tree);
         EncodedString enc = Huffman.encode(encMap, "Polly Wolly Snack Pack Pocket");
@@ -108,7 +108,7 @@ public class HuffmanTests {
 
     @Test
     public void test1() {
-        Map<Character, Integer> freqMap = Huffman.buildFrequencyMap("aaaaa");
+        Map<Character, Integer> freqMap5 = Huffman.buildFrequencyMap("aaaaa");
         assertEquals(new Integer(5), freqMap.get('a'));
         Node tree = Huffman.buildHuffmanTree(freqMap);
         Map<Character, EncodedString> encMap = Huffman.buildEncodingMap(tree);
