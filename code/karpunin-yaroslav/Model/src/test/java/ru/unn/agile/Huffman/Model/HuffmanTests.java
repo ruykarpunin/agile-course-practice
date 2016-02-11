@@ -131,13 +131,11 @@ public class HuffmanTests {
         StringBuilder builder;
         Random rand;
         boolean passed;
-
-
         for(int i = 0; i < 1000; i++) {
             rand = new Random();
             builder = new StringBuilder();
-            for (int j = 0; j < 10000; j++) {
-                builder.append((char)(rand.nextInt(527) + 133));
+            for(int j = 0; j < 10000; j++) {
+                builder.append( (char) (rand.nextInt(527) + 133));
             }
             message = builder.toString();
             freqMap = Huffman.buildFrequencyMap(message);
@@ -176,11 +174,11 @@ public class HuffmanTests {
         }
     }
 
-    private static LinkedList<Node> betterPrint(final LinkedList<Node> _list,
-                                                final LinkedList<Node> _list2, String _result) {
-        LinkedList<Node> list = _list;
-        LinkedList<Node> list2 = _list2;
-        String result = _result;
+    private static LinkedList<Node> betterPrint(final LinkedList<Node> Llist,
+                                                final LinkedList<Node> Llist2, final String Lresult) {
+        LinkedList<Node> list = Llist;
+        LinkedList<Node> list2 = Llist2;
+        String result = Lresult;
         if (!list.isEmpty()) {
             Node curr = list.remove();
             result += "  " + curr.getCharacter() + ":" + curr.getFrequency() + "  ";
