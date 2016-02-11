@@ -22,7 +22,7 @@ public class HuffmanTests {
         assertEquals(new Integer(1), freqMap.get('r'));
         assertEquals(new Integer(1), freqMap.get('s'));
         assertEquals(new Integer(1), freqMap.get('g'));
-    }    
+    }
 
     @Test
     public void freqMapTest2() {
@@ -57,7 +57,6 @@ public class HuffmanTests {
         freqMap.put('s', 6);
         Node tree = Huffman.buildHuffmanTree(freqMap);
         sop("");
-        // print(tree, "");
         sop("");
     }
 
@@ -67,7 +66,7 @@ public class HuffmanTests {
         Node tree = Huffman.buildHuffmanTree(freqMap);
         Map<Character, EncodedString> encMap = Huffman.buildEncodingMap(tree);
 
-        for(Map.Entry<Character, EncodedString> entry : encMap.entrySet()) {
+        for (Map.Entry<Character, EncodedString> entry : encMap.entrySet()) {
             System.out.println(entry.getKey() + ": " + encString(entry.getValue()));
         }
     }
@@ -77,12 +76,12 @@ public class HuffmanTests {
         Map<Character, Integer> freqMap2 = Huffman.buildFrequencyMap("I'm Yaroslav Karpunin");
         Node tree2 = Huffman.buildHuffmanTree(freqMap2);
         Map<Character, EncodedString> encMap2 = Huffman.buildEncodingMap(tree2);
-        for(Map.Entry<Character, EncodedString> entry2 : encMap2.entrySet()) {
+        for (Map.Entry<Character, EncodedString> entry2 : encMap2.entrySet()) {
             System.out.println(entry2.getKey() + ": " + encString(entry2.getValue()));
         }
         EncodedString string2 = Huffman.encode(encMap2, "I'm Yaroslav Karpunin");
 
-        System.out.println("Encoded String: "  + Math.ceil(string2.length()/8) + " bytes");
+        System.out.println("Encoded String: "  + Math.ceil(string2.length() / 8) + " bytes");
         System.out.println("Normal String: "  + "I'm Yaroslav Karpunin".length() + " bytes");
         System.out.println(encString(string2));
 
@@ -100,13 +99,14 @@ public class HuffmanTests {
 
     @Test
     public void decode2() {
-        Map<Character, Integer> freqMap = Huffman.buildFrequencyMap("Polly Wolly Snack Pack Pocket");
+        Map<Character, Integer> freqMap = Huffman.buildFrequencyMap(
+                "Polly Wolly Snack Pack Pocket");
         Node tree = Huffman.buildHuffmanTree(freqMap);
         Map<Character, EncodedString> encMap = Huffman.buildEncodingMap(tree);
         EncodedString enc = Huffman.encode(encMap, "Polly Wolly Snack Pack Pocket");
 
         assertEquals("Polly Wolly Snack Pack Pocket", Huffman.decode(tree, enc));
-    }    
+    }
 
     @Test
     public void test1() {
@@ -133,10 +133,10 @@ public class HuffmanTests {
         boolean passed;
 
 
-        for(int i = 0;i<1000;i++) {
+        for(int i = 0; i < 1000; i++) {
             rand = new Random();
             builder = new StringBuilder();
-            for(int j =0;j<10000;j++) {
+            for (int j = 0; j < 10000; j++) {
                 builder.append((char)(rand.nextInt(527) + 133));
             }
             message = builder.toString();
@@ -144,55 +144,65 @@ public class HuffmanTests {
             tree = Huffman.buildHuffmanTree(freqMap);
             encMap = Huffman.buildEncodingMap(tree);
             enc = Huffman.encode(encMap, message);
-            if(i % 50 == 0) {
+            if (i % 50 == 0) {
                 System.out.println("Test " + i + " of 10000");
                 System.out.println(message);
             }
             passed = message.equals(Huffman.decode(tree, enc));
-            if(!passed)
+            if (!passed) {
                 System.out.println("FAILED: Message was: " + message);
+            }
             assertTrue(passed);
 
         }
     }
 
 
-    private static String encString(EncodedString str) {
+    private static String encString(final EncodedString str) {
         Iterator<Byte> iter = str.iterator();
         String result = "";
-        while(iter.hasNext()) {
+        while (iter.hasNext()) {
             result += iter.next();
         }
         return result;
     }
 
 
-    public static void betterPrint(Node root) {
-        if(null != root) {
+    public static void betterPrint(final Node root) {
+        if (null != root) {
             LinkedList<Node> list1 = new LinkedList<Node>();
             list1.add(root);
             betterPrint(list1, new LinkedList<Node>(), "");
         }
     }
 
-    private static LinkedList<Node> betterPrint(LinkedList<Node> list, LinkedList<Node> list2, String result) {
-        if(!list.isEmpty()) {
+    private static LinkedList<Node> betterPrint(final LinkedList<Node> _list,
+                                                final LinkedList<Node> _list2, String _result) {
+        LinkedList<Node> list = _list;
+        LinkedList<Node> list2 = _list2;
+        String result = _result;
+        if (!list.isEmpty()) {
             Node curr = list.remove();
             result += "  " + curr.getCharacter() + ":" + curr.getFrequency() + "  ";
-            if(null != curr.getLeft()) list2.add(curr.getLeft());
-            if(null != curr.getRight()) list2.add(curr.getRight());
+            if (null != curr.getLeft()) {
+                list2.add(curr.getLeft());
+            }
+            if (null != curr.getRight()) {
+                list2.add(curr.getRight());
+            }
             list2 = betterPrint(list, list2, result);
-        }
-        else if(!list2.isEmpty()){
+        } else if (!list2.isEmpty()) {
             result += "\n";
             list = new LinkedList<>();
             list2 = betterPrint(list2, list, result);
-        }
-        else {
+        } else {
             String[] lines = result.split("\n");
-            for(int i=0;i<lines.length;i++) {
+            for (int i = 0; i < lines.length; i++) {
                 String line = "";
-                for(int j=0;j<(lines[lines.length-1].length() - lines[i].length())/2;j++) line += " ";
+                for (int j = 0; j < (lines[lines.length - 1].length() - lines[i].length()) / 2;
+                     j++) {
+                    line += " ";
+                }
                 line += "  " + lines[i] + "  ";
                 sop(line);
             }
@@ -201,18 +211,24 @@ public class HuffmanTests {
 
     }
 
-    private static void sop(Object o) {
+    private static void sop(final Object o) {
         System.out.println(o.toString());
     }
 
-    private static void print(Node n, String depth) {
+    private static void print(final Node n, final String depth) {
         String depthIncrementer = "   ";
-        System.out.println(depth + n.getCharacter() +":" + n.getFrequency() + depth);
-        if(!(n.getLeft() == null && n.getRight() == null)) {
-            if(n.getLeft() != null) print(n.getLeft(), depth + depthIncrementer);
-            else System.out.println(depth + depthIncrementer  + "**");
-            if(n.getRight() != null) print(n.getRight(), depth + depthIncrementer);
-            else System.out.println(depth + depthIncrementer + "**");
+        System.out.println(depth + n.getCharacter() + ":" + n.getFrequency() + depth);
+        if (!(n.getLeft() == null && n.getRight() == null)) {
+            if (n.getLeft() != null) {
+                print(n.getLeft(), depth + depthIncrementer);
+            } else {
+                System.out.println(depth + depthIncrementer + "**");
+            }
+            if (n.getRight() != null) {
+                print(n.getRight(), depth + depthIncrementer);
+            } else  {
+                System.out.println(depth + depthIncrementer + "**");
+            }
         }
     }
 
