@@ -37,7 +37,7 @@ public class HuffmanTests {
         assertEquals(new Integer(1), freqMap.get('s'));
     }
 
-    @Test
+
     public void treeTest1() {
         Map<Character, Integer> freqMap = new HashMap<Character, Integer>();
         freqMap.put('b', 1);
@@ -121,7 +121,7 @@ public class HuffmanTests {
         assertEquals("aaaaa", Huffman.decode(tree, enc));
     }
 
-    @Test
+
     public void randomTests() {
         Map<Character, Integer> freqMap;
         Node tree;
@@ -207,7 +207,6 @@ public class HuffmanTests {
             }
         }
         return list2;
-
     }
 
     private static void sop(final Object o) {
