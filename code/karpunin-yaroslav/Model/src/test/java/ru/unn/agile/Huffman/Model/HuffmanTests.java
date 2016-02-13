@@ -7,8 +7,6 @@ import static org.junit.Assert.*;
 
 public class HuffmanTests {
 
-
-
     @Test
     public void freqMapTest() {
         Map<Character, Integer> freqMap = Huffman.buildFrequencyMap("Geewillickersg");
@@ -36,7 +34,6 @@ public class HuffmanTests {
         assertEquals(new Integer(1), freqMap.get('c'));
         assertEquals(new Integer(1), freqMap.get('s'));
     }
-
 
     public void treeTest1() {
         Map<Character, Integer> freqMap = new HashMap<Character, Integer>();
@@ -121,7 +118,6 @@ public class HuffmanTests {
         assertEquals("aaaaa", Huffman.decode(tree, enc));
     }
 
-
     public void randomTests() {
         Map<Character, Integer> freqMap;
         Node tree;
@@ -155,7 +151,6 @@ public class HuffmanTests {
         }
     }
 
-
     private static String encString(final EncodedString str) {
         Iterator<Byte> iter = str.iterator();
         String result = "";
@@ -164,7 +159,6 @@ public class HuffmanTests {
         }
         return result;
     }
-
 
     public static void betterPrint(final Node root) {
         if (null != root) {
@@ -229,5 +223,4 @@ public class HuffmanTests {
             }
         }
     }
-
 }
