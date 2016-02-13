@@ -9,11 +9,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.junit.Test;
-
 public class HuffmanTest {
 
-    private final String lEASY = "ab", lONE_LETTER = "a", lDOUBLE = "aabb",
+    private final String lEASY = "ab", lONELETTER = "a", lDOUBLE = "aabb",
             lSENTENCE = "The quick brown fox trips over the lazy dog.",
             lCAPITALS = "aAaAaAaAaA",
             lSENTENCE2 = "This is a test sentence for Huffman's algorithm.";
@@ -27,9 +25,9 @@ public class HuffmanTest {
 
     @Test
     public void testOneLetter() {
-        Node tree = Huffman.buildHuffmanTree(Huffman.buildFrequencyMap(lONE_LETTER));
-        assertEquals(lONE_LETTER, Huffman.decode(tree, Huffman.encode(
-                Huffman.buildEncodingMap(tree), lONE_LETTER)));
+        Node tree = Huffman.buildHuffmanTree(Huffman.buildFrequencyMap(lONELETTER));
+        assertEquals(lONELETTER, Huffman.decode(tree, Huffman.encode(
+                Huffman.buildEncodingMap(tree), lONELETTER)));
     }
 
     @Test
