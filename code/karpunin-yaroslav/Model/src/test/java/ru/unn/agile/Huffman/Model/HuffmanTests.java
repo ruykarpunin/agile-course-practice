@@ -208,7 +208,8 @@ public class HuffmanTests {
         return list2;
     }
 
-    private static  LinkedList<Node> betterPrintPart2(final LinkedList<Node> lList2, final Node curr) {
+    private static  LinkedList<Node> betterPrintPart2(final LinkedList<Node> lList2,
+                                                      final Node curr) {
         LinkedList<Node> list2 = lList2;
         if (null != curr.getLeft()) {
             list2.add(curr.getLeft());
