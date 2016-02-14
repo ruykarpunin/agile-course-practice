@@ -146,7 +146,7 @@ public class HuffmanTests {
         }
     }
 
-    private static StringBuilder randomTestsPart2(){
+    private static StringBuilder randomTestsPart2() {
         StringBuilder builder = new StringBuilder();
         Random rand;
         rand = new Random();
@@ -196,7 +196,7 @@ public class HuffmanTests {
         if (!list.isEmpty()) {
             Node curr = list.remove();
             result += "  " + curr.getCharacter() + ":" + curr.getFrequency() + "  ";
-            list2 = betterPrintPart2(list2,curr);
+            list2 = betterPrintPart2(list2, curr);
             list2 = betterPrint(list, list2, result);
         } else if (!list2.isEmpty()) {
             result += "\n";
@@ -208,7 +208,7 @@ public class HuffmanTests {
         return list2;
     }
 
-    private static  LinkedList<Node> betterPrintPart2(final LinkedList<Node> lList2,Node curr) {
+    private static  LinkedList<Node> betterPrintPart2(final LinkedList<Node> lList2, final Node curr) {
         LinkedList<Node> list2 = lList2;
         if (null != curr.getLeft()) {
             list2.add(curr.getLeft());
