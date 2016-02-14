@@ -107,12 +107,10 @@ public final class Huffman {
         for (char c : s.toCharArray()) {
             if (null != encodingMap.get(c)) {
                 str.concat(encodingMap.get(c));
-
             }
         }
         return str;
     }
-
     /**
      * Decode the encoded string using the tree provided.
      *

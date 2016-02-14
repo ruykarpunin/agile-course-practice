@@ -2,10 +2,10 @@ package ru.unn.agile.Huffman.Model;
 public class Node implements Comparable<Node>, java.io.Serializable {
     private Integer timer = 0;
     private Integer time;
-    private Integer frequency;
+    private final Integer frequency;
     private Character character;
-    private Node left;
-    private Node right;
+    private final Node left;
+    private final Node right;
     public Node getLeft() { return  left; }
     public Node getRight() { return  right; }
     public Node(final Character character, final Integer frequency) {
