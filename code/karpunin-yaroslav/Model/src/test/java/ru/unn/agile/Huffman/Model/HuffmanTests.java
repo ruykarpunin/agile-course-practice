@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 public class HuffmanTests {
 
+
     @Test
     public void freqMapTest() {
         Map<Character, Integer> freqMap = Huffman.buildFrequencyMap("Geewillickersg");
@@ -35,6 +36,8 @@ public class HuffmanTests {
         assertEquals(new Integer(1), freqMap.get('s'));
     }
 
+
+    @Test
     public void treeTest1() {
         Map<Character, Integer> freqMap = new HashMap<Character, Integer>();
         freqMap.put('b', 1);
@@ -46,6 +49,11 @@ public class HuffmanTests {
         freqMap.put('m', 2);
         freqMap.put('r', 5);
         freqMap.put('a', 4);
+        freqMap = partOfTreeTest1(freqMap);
+    }
+
+    public Map<Character, Integer> partOfTreeTest1(final Map<Character, Integer> pFreqMap) {
+        Map<Character, Integer> freqMap = pFreqMap;
         freqMap.put('i', 4);
         freqMap.put('o', 3);
         freqMap.put('d', 3);
@@ -55,6 +63,7 @@ public class HuffmanTests {
         Node tree = Huffman.buildHuffmanTree(freqMap);
         sop("");
         sop("");
+        return freqMap;
     }
 
     @Test
@@ -78,8 +87,8 @@ public class HuffmanTests {
         }
         EncodedString string2 = Huffman.encode(encMap2, "I'm Yaroslav Karpunin");
 
-        System.out.println("Encoded String: "  + Math.ceil(string2.length() / 8) + " bytes");
-        System.out.println("Normal String: "  + "I'm Yaroslav Karpunin".length() + " bytes");
+        System.out.println("Encoded String: " + Math.ceil(string2.length() / 8) + " bytes");
+        System.out.println("Normal String: " + "I'm Yaroslav Karpunin".length() + " bytes");
         System.out.println(encString(string2));
 
     }
@@ -118,6 +127,7 @@ public class HuffmanTests {
         assertEquals("aaaaa", Huffman.decode(tree, enc));
     }
 
+    @Test
     public void randomTests() {
         Map<Character, Integer> freqMap;
         Node tree;
@@ -125,30 +135,38 @@ public class HuffmanTests {
         EncodedString enc;
         String message;
         StringBuilder builder;
-        Random rand;
-        boolean passed;
         for (int i = 0; i < 1000; i++) {
-            rand = new Random();
-            builder = new StringBuilder();
-            for (int j = 0; j < 10000; j++) {
-                builder.append((char) (rand.nextInt(527) + 133));
-            }
+            builder = randomTestsPart2();
             message = builder.toString();
             freqMap = Huffman.buildFrequencyMap(message);
             tree = Huffman.buildHuffmanTree(freqMap);
             encMap = Huffman.buildEncodingMap(tree);
             enc = Huffman.encode(encMap, message);
-            if (i % 50 == 0) {
-                System.out.println("Test " + i + " of 10000");
-                System.out.println(message);
-            }
-            passed = message.equals(Huffman.decode(tree, enc));
-            if (!passed) {
-                System.out.println("FAILED: Message was: " + message);
-            }
-            assertTrue(passed);
-
+            assertTrue(randomTestsPart3(i, message, tree, enc));
         }
+    }
+
+    private static StringBuilder randomTestsPart2(){
+        StringBuilder builder = new StringBuilder();
+        Random rand;
+        rand = new Random();
+        for (int j = 0; j < 10000; j++) {
+        builder.append((char) (rand.nextInt(527) + 133));
+            }
+        return builder;
+    }
+
+    private  static  boolean randomTestsPart3(final int i, final String message, final Node tree,
+                                              final EncodedString enc) {
+        if (i % 50 == 0) {
+            System.out.println("Test " + i + " of 10000");
+            System.out.println(message);
+        }
+        boolean passed = message.equals(Huffman.decode(tree, enc));
+        if (!passed) {
+            System.out.println("FAILED: Message was: " + message);
+        }
+        return  passed;
     }
 
     private static String encString(final EncodedString str) {
@@ -159,6 +177,7 @@ public class HuffmanTests {
         }
         return result;
     }
+
 
     public static void betterPrint(final Node root) {
         if (null != root) {
@@ -177,30 +196,40 @@ public class HuffmanTests {
         if (!list.isEmpty()) {
             Node curr = list.remove();
             result += "  " + curr.getCharacter() + ":" + curr.getFrequency() + "  ";
-            if (null != curr.getLeft()) {
-                list2.add(curr.getLeft());
-            }
-            if (null != curr.getRight()) {
-                list2.add(curr.getRight());
-            }
+            list2 = betterPrintPart2(list2,curr);
             list2 = betterPrint(list, list2, result);
         } else if (!list2.isEmpty()) {
             result += "\n";
             list = new LinkedList<>();
             list2 = betterPrint(list2, list, result);
         } else {
-            String[] lines = result.split("\n");
-            for (int i = 0; i < lines.length; i++) {
-                String line = "";
-                for (int j = 0; j < (lines[lines.length - 1].length() - lines[i].length()) / 2;
-                     j++) {
-                    line += " ";
-                }
-                line += "  " + lines[i] + "  ";
-                sop(line);
-            }
+            betterPrintPart3(result);
         }
         return list2;
+    }
+
+    private static  LinkedList<Node> betterPrintPart2(final LinkedList<Node> lList2,Node curr) {
+        LinkedList<Node> list2 = lList2;
+        if (null != curr.getLeft()) {
+            list2.add(curr.getLeft());
+        }
+        if (null != curr.getRight()) {
+            list2.add(curr.getRight());
+        }
+        return list2;
+    }
+    private static void betterPrintPart3(final String lResult) {
+        String result = lResult;
+        String[] lines = result.split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            String line = "";
+            for (int j = 0; j < (lines[lines.length - 1].length() - lines[i].length()) / 2;
+                 j++) {
+                line += " ";
+            }
+            line += "  " + lines[i] + "  ";
+            sop(line);
+        }
     }
 
     private static void sop(final Object o) {
@@ -223,4 +252,5 @@ public class HuffmanTests {
             }
         }
     }
+
 }
