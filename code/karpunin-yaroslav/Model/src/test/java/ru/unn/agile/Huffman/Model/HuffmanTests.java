@@ -178,7 +178,6 @@ public class HuffmanTests {
         return result;
     }
 
-
     public static void betterPrint(final Node root) {
         if (null != root) {
             LinkedList<Node> list1 = new LinkedList<Node>();
@@ -207,6 +206,7 @@ public class HuffmanTests {
         }
         return list2;
     }
+
     private static  LinkedList<Node> betterPrintPart2(final LinkedList<Node> lList2,
                                                       final Node curr) {
         LinkedList<Node> list2 = lList2;
@@ -218,6 +218,7 @@ public class HuffmanTests {
         }
         return list2;
     }
+
     private static void betterPrintPart3(final String lResult) {
         String result = lResult;
         String[] lines = result.split("\n");
