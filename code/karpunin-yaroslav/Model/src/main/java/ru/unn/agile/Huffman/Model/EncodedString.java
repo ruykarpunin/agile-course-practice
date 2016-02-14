@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 public class EncodedString implements Iterable<Byte> {
     public static final byte ZERO = (byte) 0;
     public static final byte ONE = (byte) 1;
-    private List<Byte> list;
+    private final List<Byte> list;
     public EncodedString() {
         list = new ArrayList<>();
     }
@@ -20,7 +20,7 @@ public class EncodedString implements Iterable<Byte> {
         list.add(ONE);
     }
     public byte remove() {
-        if (!list.isEmpty()) {
+        if (list.isEmpty()) {
             return list.remove(list.size() - 1);
         } else {
             throw new NoSuchElementException();
@@ -43,8 +43,8 @@ public class EncodedString implements Iterable<Byte> {
         return new MyIterator();
     }
     // Wrapping this class to disable remove.
-    private final class MyIterator implements Iterator<Byte> {
-        private Iterator<Byte> iter;
+    public class MyIterator implements Iterator<Byte> {
+        private final Iterator<Byte> iter;
         private MyIterator() {
             iter = list.iterator();
         }

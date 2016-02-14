@@ -55,7 +55,7 @@ public final class HuffmanFileEncode {
         huffmanTree = Huffman.buildHuffmanTree(Huffman.buildFrequencyMap(file));
         EncodedString encString;
         encString = Huffman.encode(Huffman.buildEncodingMap(
-                (huffmanTree)), file);
+                huffmanTree), file);
         try {
             System.out.println("Attempting to serialize huffman tree for later decoding use...");
             serializeHuffmanTree(huffmanTree);
@@ -178,7 +178,7 @@ public final class HuffmanFileEncode {
 
     private static byte[] bytesFromString(final String str) {
         byte[] bytes;
-        bytes = new byte[(int) Math.ceil((str.length() / WORD_LENGTH))];
+        bytes = new byte[(int) Math.ceil(str.length() / WORD_LENGTH)];
         int count = 0;
         int i = 0;
         String currentByte = "";
@@ -234,9 +234,7 @@ public final class HuffmanFileEncode {
         byte result = 0;
         for (int i = 1; i < binary.length(); i++) {
             int c = Integer.parseInt(binary.substring(i, i + 1));
-            int res;
-            res = (c == 1) ? (int) Math.pow(2, (binary.length() - 1 - i)) : 0;
-            result += (byte)res;
+            result += c == 1 ? (int) Math.pow(2, binary.length() - 1 - i) : 0;
         }
         //10000000
         result *= binary.charAt(0) == '0' ? 1 : -1;
