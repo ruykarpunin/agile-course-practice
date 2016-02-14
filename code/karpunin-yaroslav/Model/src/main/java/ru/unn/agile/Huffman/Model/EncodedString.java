@@ -45,7 +45,7 @@ public class EncodedString implements Iterable<Byte> {
     // Wrapping this class to disable remove.
     public final class MyIterator implements Iterator<Byte> {
         private final Iterator<Byte> iter;
-        private MyIterator() {
+        public MyIterator() {
             iter = list.iterator();
         }
         @Override

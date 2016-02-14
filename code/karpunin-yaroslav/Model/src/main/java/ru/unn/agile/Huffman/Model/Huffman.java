@@ -131,7 +131,7 @@ public final class Huffman {
         while (iter.hasNext()) {
             next = iter.next();
             curr = next == 0 ? curr.getLeft() : curr.getRight();
-            if ((null != curr) && (curr.getCharacter() != 0)) {
+            if (null != curr && curr.getCharacter() != 0) {
                 builder.append(curr.getCharacter());
                 curr = tree;
             }
