@@ -234,7 +234,7 @@ public final class HuffmanFileEncode {
         byte result = 0;
         for (int i = 1; i < binary.length(); i++) {
             int c = Integer.parseInt(binary.substring(i, i + 1));
-            result += c == 1 ? (int)Math.pow(2, binary.length() - 1 - i) : 0;
+            result += c == 1 ? (int) Math.pow(2, binary.length() - 1 - i) : 0;
         }
         result *= binary.charAt(0) == '0' ? 1 : -1;
         return result;
