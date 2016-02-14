@@ -207,7 +207,6 @@ public class HuffmanTests {
         }
         return list2;
     }
-
     private static  LinkedList<Node> betterPrintPart2(final LinkedList<Node> lList2,
                                                       final Node curr) {
         LinkedList<Node> list2 = lList2;
