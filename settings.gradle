@@ -118,6 +118,11 @@ project(":code/kalyakulina-alena/Infrastructure").name = "kalyakulina-alena-Infr
 // Karpunin Yaroslav
 include "code/karpunin-yaroslav/Model"
 project(":code/karpunin-yaroslav/Model").name = "karpunin-yaroslav-Model"
+include "code/karpunin-yaroslav/ViewModel"
+project(":code/karpunin-yaroslav/ViewModel").name = "karpunin-yaroslav-ViewModel"
+include "code/karpunin-yaroslav/View"
+project(":code/karpunin-yaroslav/View").name = "karpunin-yaroslav-View"
+
 // Kazanbaev Dmitry
 include "code/kazanbaev-dmitry/Model"
 project(":code/kazanbaev-dmitry/Model").name = "kazanbaev-dmitry-Model"
