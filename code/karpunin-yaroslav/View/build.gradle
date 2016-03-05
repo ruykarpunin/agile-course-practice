@@ -1,5 +1,5 @@
 dependencies {
-    compile project(':karpunin-yaroslav-lab2-ViewModel')
+    compile project(':karpunin-yaroslav-ViewModel')
 }
 
 sourceSets {
