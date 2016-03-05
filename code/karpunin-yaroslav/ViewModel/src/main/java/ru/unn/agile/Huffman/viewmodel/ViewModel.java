@@ -1,6 +1,9 @@
 package ru.unn.agile.Huffman.viewmodel;
 
 import ru.unn.agile.Huffman.Model.Huffman;
+import ru.unn.agile.Huffman.Model.EncodedString;
+import ru.unn.agile.Huffman.Model.Node;
+import java.util.*;
 
 public class ViewModel {
     private String HuffmanString;
