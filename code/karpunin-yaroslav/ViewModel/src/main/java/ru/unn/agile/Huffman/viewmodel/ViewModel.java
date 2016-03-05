@@ -3,6 +3,7 @@ package ru.unn.agile.Huffman.viewmodel;
 import ru.unn.agile.Huffman.Model.Huffman;
 import ru.unn.agile.Huffman.Model.EncodedString;
 import ru.unn.agile.Huffman.Model.Node;
+import ru.unn.agile.Huffman.Model.HuffmanFileEncode;
 
 import java.util.*;
 
@@ -89,7 +90,7 @@ public class ViewModel {
         Node tree2 = Huffman.buildHuffmanTree(freqMap2);
         Map<Character, EncodedString> encMap2 = Huffman.buildEncodingMap(tree2);
         for (Map.Entry<Character, EncodedString> entry2 : encMap2.entrySet()) {
-            System.out.println(entry2.getKey() + ": " + ru.unn.agile.Huffman.Model.encString(entry2.getValue()));
+            System.out.println(entry2.getKey() + ": " + encString(entry2.getValue()));
         }
         EncodedString string2 = Huffman.encode(encMap2, HuffmanString);
 
