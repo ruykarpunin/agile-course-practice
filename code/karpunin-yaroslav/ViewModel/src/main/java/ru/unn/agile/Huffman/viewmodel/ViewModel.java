@@ -90,7 +90,7 @@ public class ViewModel {
         Node tree2 = Huffman.buildHuffmanTree(freqMap2);
         Map<Character, EncodedString> encMap2 = Huffman.buildEncodingMap(tree2);
         for (Map.Entry<Character, EncodedString> entry2 : encMap2.entrySet()) {
-            System.out.println(entry2.getKey() );
+            System.out.println(entry2.getKey() +"");
         }
         EncodedString string2 = Huffman.encode(encMap2, HuffmanString);
 

@@ -1,6 +1,7 @@
 package ru.unn.agile.Huffman.view;
 
 import ru.unn.agile.Huffman.viewmodel.ViewModel;
+import ru.unn.agile.Huffman.infrastructure.TxtLogger;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -36,13 +37,6 @@ public final class Huffman {
             }
         });
 
-        cbOperation.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent actionEvent) {
-                bind();
-                backBind();
-            }
-        });
 
         KeyAdapter keyListener = new KeyAdapter() {
             public void keyReleased(final KeyEvent e) {
