@@ -3,6 +3,8 @@ package ru.unn.agile.Huffman.viewmodel;
 import ru.unn.agile.Huffman.Model.Huffman;
 import ru.unn.agile.Huffman.Model.EncodedString;
 import ru.unn.agile.Huffman.Model.Node;
+import ru.unn.agile.Huffman.Model.encString;
+
 import java.util.*;
 
 public class ViewModel {
