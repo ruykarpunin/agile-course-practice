@@ -123,5 +123,11 @@ public class ViewModel {
 
         private Status() { }
     }
+    public final class LogMessages {
+        public static final String CALCULATE_WAS_PRESSED = "Calculate. ";
+        public static final String OPERATION_WAS_CHANGED = "Operation was changed to ";
+        public static final String EDITING_FINISHED = "Updated input. ";
 
+        private LogMessages() { }
+    }
 }
