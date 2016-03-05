@@ -10,10 +10,13 @@ import static org.junit.Assert.*;
 
 public class ViewModelTests {
     private ViewModel viewModel;
-
+    public void setViewModel(final ViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
     @Before
     public void setUp() {
-        viewModel = new ViewModel();
+        FakeLogger logger = new FakeLogger();
+        viewModel = new ViewModel(logger);
     }
 
     @After
@@ -115,5 +118,143 @@ public class ViewModelTests {
         viewModel.processKeyInTextField(KeyboardKeys.ENTER);
 
         assertEquals(Status.SUCCESS, viewModel.getStatus());
+    }
+    @Test
+    public void canCreateViewModelWithLogger() {
+        FakeLogger logger = new FakeLogger();
+        ViewModel viewModelLogged = new ViewModel(logger);
+
+        assertNotNull(viewModelLogged);
+    }
+
+    @Test
+    public void viewModelConstructorThrowsExceptionWithNullLogger() {
+        try {
+            new ViewModel(null);
+            fail("Exception wasn't thrown");
+        } catch (IllegalArgumentException ex) {
+            assertEquals("Logger parameter can't be null", ex.getMessage());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
+    }
+
+    @Test
+    public void isLogEmptyInTheBeginning() {
+        List<String> log = viewModel.getLog();
+
+        assertEquals(0, log.size());
+    }
+
+    @Test
+    public void isCalculatePuttingSomething() {
+        viewModel.calculate();
+
+        List<String> log = viewModel.getLog();
+        assertNotEquals(0, log.size());
+    }
+
+    @Test
+    public void isLogContainsProperMessage() {
+        viewModel.calculate();
+        String message = viewModel.getLog().get(0);
+
+        assertThat(message,
+                matchesPattern(".*" + ViewModel.LogMessages.CALCULATE_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void isLogContainsInputArguments() {
+        fillInputFields();
+
+        viewModel.calculate();
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*" + viewModel.getHaffmanString()));
+    }
+
+
+
+
+
+    @Test
+    public void canPutSeveralLogMessages() {
+        fillInputFields();
+
+        viewModel.calculate();
+        viewModel.calculate();
+        viewModel.calculate();
+
+        assertEquals(3, viewModel.getLog().size());
+    }
+
+    @Test
+    public void isOperationNotLoggedWhenNotChanged() {
+        viewModel.setOperation(ViewModel.Operation.MULTIPLY);
+        viewModel.setOperation(ViewModel.Operation.MULTIPLY);
+
+        assertEquals(1, viewModel.getLog().size());
+    }
+
+    @Test
+    public void isEditingFinishLogged() {
+        viewModel.setHuffmanString("Input argument is: ");
+
+        viewModel.focusLost();
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*" + ViewModel.LogMessages.EDITING_FINISHED + ".*"));
+    }
+
+    @Test
+    public void areArgumentsCorrectlyLoggedOnEditingFinish() {
+        fillInputFields();
+        viewModel.focusLost();
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*" + ViewModel.LogMessages.EDITING_FINISHED
+                + "Input argument is: "
+                + viewModel.getHuffmanString()));
+    }
+
+    @Test
+    public void isLogInputsCalledOnEnter() {
+        fillInputFields();
+
+        viewModel.processKeyInTextField(KeyboardKeys.ENTER);
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*" + ViewModel.LogMessages.EDITING_FINISHED + ".*"));
+    }
+
+    @Test
+    public void isCalculateNotCalledWhenButtonIsDisabled() {
+        viewModel.processKeyInTextField(KeyboardKeys.ENTER);
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*" + ViewModel.LogMessages.EDITING_FINISHED + ".*"));
+        assertEquals(1, viewModel.getLog().size());
+    }
+
+    @Test
+    public void doNotLogSameParametersTwice() {
+        fillInputFields();
+        fillInputFields();
+
+        viewModel.focusLost();
+        viewModel.focusLost();
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*" + ViewModel.LogMessages.EDITING_FINISHED + ".*"));
+        assertEquals(1, viewModel.getLog().size());
+    }
+
+    @Test
+    public void doNotLogSameParametersTwiceWithPartialInput() {
+        viewModel.setHuffmanString("test");
+
+        viewModel.focusLost();
+
+        assertEquals(1, viewModel.getLog().size());
     }
 }

@@ -122,6 +122,8 @@ include "code/karpunin-yaroslav/ViewModel"
 project(":code/karpunin-yaroslav/ViewModel").name = "karpunin-yaroslav-ViewModel"
 include "code/karpunin-yaroslav/View"
 project(":code/karpunin-yaroslav/View").name = "karpunin-yaroslav-View"
+include "code/karpunin-yaroslav/Infrastructure"
+project(":code/karpunin-yaroslav/Infrastructure").name = "karpunin-yaroslav-infrastructure"
 
 // Kazanbaev Dmitry
 include "code/kazanbaev-dmitry/Model"

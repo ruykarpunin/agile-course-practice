@@ -7,14 +7,23 @@ public class ViewModel {
     private String result;
     private String status;
     private boolean isCalculateButtonEnabled;
+    private boolean isInputChanged;
+    private ILogger logger;
 
-    public ViewModel() {
+
+    public ViewModel(final ILogger logger) {
+        if (logger == null) {
+            throw new IllegalArgumentException("Logger parameter can't be null");
+        }
         HuffmanString = "";
         result = "";
         status = Status.WAITING;
-
         isCalculateButtonEnabled = false;
+        isInputChanged = true;
     }
+
+
+
 
     public void processKeyInTextField(final int keyCode) {
         parseInput();
@@ -30,7 +39,26 @@ public class ViewModel {
             calculate();
         }
     }
+    private void logInputParams() {
+        if (!isInputChanged) {
+            return;
+        }
 
+        logger.log(editingFinishedLogMessage());
+        isInputChanged = false;
+    }
+
+    public void focusLost() {
+        logInputParams();
+    }
+    private String editingFinishedLogMessage() {
+        String message = LogMessages.EDITING_FINISHED
+                + "Input argument is: "
+                + HuffmanString ;
+
+
+        return message;
+    }
     public boolean isCalculateButtonEnabled() {
         return isCalculateButtonEnabled;
     }
@@ -51,6 +79,7 @@ public class ViewModel {
     }
 
     public void calculate() {
+        logger.log(calculateLogMessage());
 
         Map<Character, Integer> freqMap2 = Huffman.buildFrequencyMap(HuffmanString);
         Node tree2 = Huffman.buildHuffmanTree(freqMap2);
@@ -63,7 +92,13 @@ public class ViewModel {
         result = string2 +"";
         status = Status.SUCCESS;
     }
+    private String calculateLogMessage() {
+        String message =
+                LogMessages.CALCULATE_WAS_PRESSED + "Arguments"
+                        + ": String = " + HuffmanString+ ".";
 
+        return message;
+    }
     public String getResult() {
         return result;
     }
@@ -78,6 +113,7 @@ public class ViewModel {
 
     public void setHuffmanString(final String HuffmanString) {
         this.HuffmanString = HuffmanString;
+        isInputChanged = true;
     }
 
     public final class Status {
@@ -87,4 +123,5 @@ public class ViewModel {
 
         private Status() { }
     }
+
 }

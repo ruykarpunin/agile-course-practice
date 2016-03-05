@@ -1,5 +1,6 @@
 dependencies {
     compile project(':karpunin-yaroslav-ViewModel')
+    testCompile project(':karpunin-yaroslav-ViewModel').sourceSets.test.output
 }
 
 sourceSets {

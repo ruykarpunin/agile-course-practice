@@ -1,5 +1,5 @@
 dependencies {
-    compile project(':karpunin-yaroslav-lab2-Model')
+    compile project(':karpunin-yaroslav-Model')
 }
 
 sourceSets {

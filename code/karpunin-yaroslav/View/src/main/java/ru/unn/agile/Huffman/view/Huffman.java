@@ -18,7 +18,7 @@ public final class Huffman {
 
     private JTextField txtResult;
     private JLabel lbStatus;
-
+    private JList<String> lstLog;
     private Huffman() {
 
     }
@@ -56,8 +56,8 @@ public final class Huffman {
 
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Huffman");
-
-        frame.setContentPane(new Huffman(new ViewModel()).mainPanel);
+        TxtLogger logger = new TxtLogger("./Huffman.log");
+        frame.setContentPane(new Huffman(new ViewModel(logger)).mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -72,5 +72,9 @@ public final class Huffman {
 
         txtResult.setText(viewModel.getResult());
         lbStatus.setText(viewModel.getStatus());
+
+        List<String> log = viewModel.getLog();
+        String[] items = log.toArray(new String[log.size()]);
+        lstLog.setListData(items);
     }
 }
