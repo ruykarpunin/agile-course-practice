@@ -97,6 +97,10 @@ public class ViewModel {
         result = string2 +"";
         status = Status.SUCCESS;
     }
+    public List<String> getLog() {
+        return logger.getLog();
+    }
+
     private String calculateLogMessage() {
         String message =
                 LogMessages.CALCULATE_WAS_PRESSED + "Arguments"
