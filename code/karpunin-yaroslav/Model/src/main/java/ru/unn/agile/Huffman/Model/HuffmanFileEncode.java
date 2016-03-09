@@ -53,8 +53,8 @@ public final class HuffmanFileEncode {
     private static byte[] encode(final String file) {
         Node huffmanTree;
         huffmanTree = Huffman.buildHuffmanTree(Huffman.buildFrequencyMap(file));
-        EncodedString encString;
-        encString = Huffman.encode(Huffman.buildEncodingMap(
+        EncodedString encodedString;
+        encodedString = Huffman.encode(Huffman.buildEncodingMap(
                 huffmanTree), file);
         try {
             System.out.println("Attempting to serialize huffman tree for later decoding use...");
@@ -64,7 +64,7 @@ public final class HuffmanFileEncode {
             System.out.println(
                     "Failed to serialize huffman tree, you will be unable to decode this file.");
         }
-        return encodedToBytes(encString);
+        return encodedToBytes(encodedString);
     }
 
     /**
@@ -109,30 +109,29 @@ public final class HuffmanFileEncode {
 
     private static String readFile(final String file) throws IOException {
             FileReader fileReader = new FileReader(file);
-            BufferedReader buff = new BufferedReader(fileReader);
-            //read here
+            BufferedReader buffer = new BufferedReader(fileReader);
             String line;
             StringBuilder fileBuilder = new StringBuilder();
-            while ((line = buff.readLine()) != null) {
+            while ((line = buffer.readLine()) != null) {
                 fileBuilder.append(line);
                 fileBuilder.append('\n');
             }
-            buff.close();
+            buffer.close();
             return fileBuilder.toString();
     }
 
     private static String readBinary(final String file) throws IOException {
-        DataInputStream ds = new DataInputStream(new FileInputStream(file));
+        DataInputStream dataInputStream = new DataInputStream(new FileInputStream(file));
         StringBuilder builder = new StringBuilder();
         try {
             while (true) {
-                byte b = ds.readByte();
+                byte b = dataInputStream.readByte();
                 builder.append(toBinary(b));
             }
         } catch (EOFException eof) {
             System.out.println(eof);
         }
-        ds.close();
+        dataInputStream.close();
         return builder.toString();
     }
 
@@ -146,30 +145,30 @@ public final class HuffmanFileEncode {
         }
     }
     private static void writeFile(final String file, final String contents) throws IOException {
-        FileWriter fw = new FileWriter(file);
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(contents);
-        bw.close();
+        FileWriter fileWriter = new FileWriter(file);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        bufferedWriter.write(contents);
+        bufferedWriter.close();
     }
 
     private static void writeFile(final String file, final byte[] contents) throws IOException {
-        DataOutputStream os = new DataOutputStream(new FileOutputStream(file));
+        DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(file));
         for (int b : contents) {
-            os.writeByte(b);
+            dataOutputStream.writeByte(b);
         }
-        os.close();
+        dataOutputStream.close();
     }
 
-    private static EncodedString stringToEncoded(final String str) {
-        EncodedString enc = new EncodedString();
-        for (char c : str.toCharArray()) {
+    private static EncodedString stringToEncoded(final String string) {
+        EncodedString encodedString = new EncodedString();
+        for (char c : string.toCharArray()) {
             if (c == '0') {
-                enc.zero();
+                encodedString.zero();
             } else {
-                enc.one();
+                encodedString.one();
             }
         }
-        return enc;
+        return encodedString;
     }
 
     private static byte[] encodedToBytes(final EncodedString str) {

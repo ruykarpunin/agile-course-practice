@@ -26,8 +26,8 @@ public class EncodedString implements Iterable<Byte> {
             throw new NoSuchElementException();
         }
     }
-    public void concat(final EncodedString es) {
-        list.addAll(es.list);
+    public void concat(final EncodedString encodedString) {
+        list.addAll(encodedString.list);
     }
     public int length() {
         return list.size();

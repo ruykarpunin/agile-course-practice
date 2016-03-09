@@ -1,7 +1,7 @@
 package ru.unn.agile.Huffman.view;
 
-import ru.unn.agile.Huffman.viewmodel.ViewModel;
 import ru.unn.agile.Huffman.infrastructure.TxtLogger;
+import ru.unn.agile.Huffman.viewmodel.ViewModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

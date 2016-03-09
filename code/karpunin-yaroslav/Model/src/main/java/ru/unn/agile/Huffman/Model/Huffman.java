@@ -10,23 +10,23 @@ public final class Huffman {
      *
      * This should just be the count of each character.
      *
-     * @param s
+     * @param string
      * @return
      */
-    public static Map<Character, Integer> buildFrequencyMap(final String s) {
-        Map<Character, Integer> freqMap = new HashMap<>();
-        Integer freq;
-        for (Character c : s.toCharArray()) {
-            freq = freqMap.get(c);
-            if (null == freq) {
-                freq = 1;
+    public static Map<Character, Integer> buildFrequencyMap(final String string) {
+        Map<Character, Integer> frequencyMap = new HashMap<>();
+        Integer frequency;
+        for (Character character : string.toCharArray()) {
+            frequency = frequencyMap.get(character);
+            if (null == frequency) {
+                frequency = 1;
             } else {
-                freq = ++freq;
+                frequency = ++frequency;
             }
-            freqMap.put(c, freq);
+            frequencyMap.put(character, frequency);
         }
 
-        return freqMap;
+        return frequencyMap;
     }
 
     /**
@@ -34,12 +34,12 @@ public final class Huffman {
      *
      * The frequency map will not necessarily come from the buildFrequencyMap() method.
      *
-     * @param freq
+     * @param frequency
      * @return
      */
-    public static Node buildHuffmanTree(final Map<Character, Integer> freq) {
+    public static Node buildHuffmanTree(final Map<Character, Integer> frequency) {
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        for (Map.Entry<Character, Integer> entry : freq.entrySet()) {
+        for (Map.Entry<Character, Integer> entry : frequency.entrySet()) {
             pq.add(new Node(entry.getKey(), entry.getValue()));
         }
         if (pq.size() == 1) {
@@ -99,13 +99,13 @@ public final class Huffman {
      * for the tree given to decode() when decoding this method's output.
      *
      * @param encodingMap
-     * @param s
+     * @param string
      * @return
      */
     public static EncodedString encode(final Map<Character, EncodedString> encodingMap,
-                                       final String s) {
+                                       final String string) {
         EncodedString str = new EncodedString();
-        for (char c : s.toCharArray()) {
+        for (char c : string.toCharArray()) {
             if (null != encodingMap.get(c)) {
                 str.concat(encodingMap.get(c));
             }
@@ -121,20 +121,20 @@ public final class Huffman {
      * (tip: use StringBuilder to make this method faster -- concatenating strings is SLOW)
      *
      * @param tree
-     * @param es
+     * @param encodedString
      * @return
      */
-    public static String decode(final Node tree, final EncodedString es) {
-        Iterator<Byte> iter = es.iterator();
+    public static String decode(final Node tree, final EncodedString encodedString) {
+        Iterator<Byte> iteraror = encodedString.iterator();
         StringBuilder builder = new StringBuilder();
         Byte next;
-        Node curr = tree;
-        while (iter.hasNext()) {
-            next = iter.next();
-            curr = next == 0 ? curr.getLeft() : curr.getRight();
-            if (null != curr && curr.getCharacter() != 0) {
-                builder.append(curr.getCharacter());
-                curr = tree;
+        Node current = tree;
+        while (iteraror.hasNext()) {
+            next = iteraror.next();
+            current = next == 0 ? current.getLeft() : current.getRight();
+            if (null != current && current.getCharacter() != 0) {
+                builder.append(current.getCharacter());
+                current = tree;
             }
         }
 
