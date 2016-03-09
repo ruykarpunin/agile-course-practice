@@ -25,6 +25,7 @@ public final class Huffman {
             }
             freqMap.put(c, freq);
         }
+
         return freqMap;
     }
 
